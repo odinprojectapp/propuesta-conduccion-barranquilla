@@ -79,6 +79,10 @@ p{max-width:44em}
 .diagrama{background:var(--hoja);border:1px solid var(--linea-2);border-radius:14px;padding:20px;margin-top:28px}
 .diagrama svg{width:100%;height:auto;display:block}
 .diagrama figcaption{font-size:14px;color:var(--tinta-3);margin-top:10px}
+.pasos-movil{display:none;list-style:none;margin:14px 0 0;padding:0;counter-reset:p}
+.pasos-movil li{counter-increment:p;display:grid;grid-template-columns:30px 1fr;gap:10px;padding:10px 0;border-top:1px solid var(--linea);font-size:15px}
+.pasos-movil li::before{content:counter(p);width:26px;height:26px;border-radius:50%;background:var(--ambar);color:var(--tinta);font:600 13px/26px var(--mono);text-align:center}
+.pasos-movil b{display:block}
 
 /* Cifras de regla */
 .reglas{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:2px solid var(--tinta);margin-top:32px}
@@ -211,8 +215,9 @@ footer .marca{display:flex;align-items:center;gap:10px;color:#fff;font-weight:70
   .envoltura{padding:0 16px}
   section{padding:56px 0}
   .barra .marca .txt{display:none}
-  .diagrama{overflow-x:auto}
-  .diagrama svg{min-width:640px}
+  .diagrama{padding:14px}
+  .diagrama svg text:not(.queda){display:none}
+  .pasos-movil{display:block}
   .tabla-sit thead{display:none}
   .tabla-sit tr{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--linea);padding:10px 0}
   .tabla-sit td{border:0;padding:4px 6px}
@@ -402,10 +407,16 @@ footer .marca{display:flex;align-items:center;gap:10px;color:#fff;font-weight:70
           <!-- señal -->
           <g transform="translate(400 98)">
             <circle r="26" fill="#fff" stroke="#b91c1c" stroke-width="6"/>
-            <text y="7" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="600" font-size="20" fill="#0f172a">20</text>
+            <text class="queda" y="7" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="600" font-size="20" fill="#0f172a">20</text>
           </g>
           <text x="400" y="148" text-anchor="middle" font-family="Archivo, sans-serif" font-size="12.5" fill="#334155">si viene rápido: «Reduzca a 20» cada 5 s</text>
         </svg>
+        <ol class="pasos-movil">
+          <li><span><b>A 300 m de la entrada</b>«Curva cerrada adelante. Máximo 20».</span></li>
+          <li><span><b>Si viene rápido</b>«Reduzca a 20», repetido cada 5 segundos hasta que frene.</span></li>
+          <li><span><b>Dentro del tramo</b>Se controla la velocidad. Exceso = 2 lecturas sobre el límite + 3 km/h.</span></li>
+          <li><span><b>A la salida</b>«Fin de la curva».</span></li>
+        </ol>
         <figcaption>Si el vehículo viene rápido, el anuncio se adelanta hasta 400 m según su velocidad, para que alcance a frenar con suavidad. La curva se descarta si va por una vía que la cruza o en sentido contrario.</figcaption>
       </figure>
 
