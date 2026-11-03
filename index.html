@@ -258,6 +258,7 @@ footer .marca{display:flex;align-items:center;gap:10px;color:#fff;font-weight:70
       <a href="#apk">App Android</a>
       <a href="#plan">Plan</a>
       <a href="#cliente">Del cliente</a>
+      <a href="#seguridad">Seguridad</a>
       <a href="#inversion">Inversión</a>
       <a href="#condiciones">Condiciones</a>
     </nav>
@@ -442,7 +443,7 @@ footer .marca{display:flex;align-items:center;gap:10px;color:#fff;font-weight:70
           <li><b>Acceso por rol:</b> el conductor solo ve su Modo ruta. Cada líder ve la flota de su agencia y los administradores ven todas.</li>
           <li><b>Los datos quedan en el Microsoft 365 de la empresa</b> (SharePoint): posiciones, rutas, recorridos y excesos. El acceso se limita al sitio del módulo.</li>
           <li><b>Protección contra envíos falsos o masivos:</b> validación de coordenadas y fechas, límites de envío por conductor y una notificación por minuto como máximo.</li>
-          <li><b>Conexión cifrada</b> (HTTPS) y sesión con caducidad.</li>
+          <li><b>Conexión cifrada</b> (HTTPS) y sesión con caducidad. El detalle está en la sección 07.</li>
         </ul>
       </div>
     </div>
@@ -606,11 +607,70 @@ footer .marca{display:flex;align-items:center;gap:10px;color:#fff;font-weight:70
   </div>
 </section>
 
-<!-- 7. Inversión -->
+<!-- 7. Seguridad -->
+<section id="seguridad">
+  <div class="envoltura">
+    <div class="cabeza">
+      <div class="n">07 · Seguridad y datos</div>
+      <div>
+        <h2>Los datos son de la empresa y se quedan en su casa</h2>
+        <p>La información del módulo vive en el Microsoft 365 de la empresa, no en servidores de Yo Reporto. Estos son los controles que tiene hoy la app en producción. El área de TI puede verificar cada uno.</p>
+      </div>
+    </div>
+    <div class="cuerpo funciones">
+      <div>
+        <h3><span class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.4" stroke-linecap="round"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3"/></svg></span>Acceso y contraseñas</h3>
+        <ul class="lista">
+          <li><b>Contraseñas cifradas</b> con bcrypt. Nunca se guardan ni se envían en texto plano, y nadie, ni Yo Reporto, puede leerlas.</li>
+          <li><b>Bloqueo contra adivinación:</b> tras varios intentos fallidos se bloquea la cuenta y la dirección de origen por 15 minutos, y el bloqueo crece hasta 24 horas.</li>
+          <li><b>Claves seguras:</b> la app rechaza claves que contengan el nombre, el correo o la cédula. En Barranquilla cada usuario recibe una clave inicial única y la puede cambiar desde la app.</li>
+          <li><b>Sesión protegida:</b> firmada por el servidor, guardada en una cookie que el navegador no deja leer a otros scripts, y vence a las 12 horas.</li>
+        </ul>
+      </div>
+      <div>
+        <h3><span class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.4" stroke-linecap="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg></span>Permisos y aplicación</h3>
+        <ul class="lista">
+          <li><b>Cada rol ve solo lo suyo:</b> el conductor, su Modo ruta; el líder, la flota de su agencia; el administrador, toda la Gerencia. Se verifica en el servidor en cada consulta, no en el celular.</li>
+          <li><b>Nada de lo que envía el celular se acepta sin revisar:</b> coordenadas dentro de Colombia, fechas, velocidades y tamaños válidos. La agencia de cada exceso la pone el servidor, no el celular.</li>
+          <li><b>Límites de frecuencia</b> por usuario para búsquedas, rutas y notificaciones, contra el abuso o el envío masivo.</li>
+          <li><b>Conexión siempre cifrada</b> (HTTPS obligatorio) y cabeceras de seguridad contra suplantación de la página.</li>
+          <li><b>Auditoría de seguridad completa</b> antes de salir a producción, en septiembre de 2026. Los fallos críticos que encontró se corrigieron.</li>
+        </ul>
+      </div>
+      <div>
+        <h3><span class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.4" stroke-linecap="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></span>Dónde y cómo se guardan</h3>
+        <ul class="lista">
+          <li><b>En el Microsoft 365 de la empresa,</b> con sus políticas, su cifrado y sus copias de seguridad.</li>
+          <li><b>Yo Reporto entra con un permiso limitado</b> al sitio del módulo, que TI puede revocar en cualquier momento.</li>
+          <li><b>Las claves del servidor</b> viven en variables protegidas del servidor, nunca en el código ni en el celular.</li>
+          <li><b>Uso exclusivo para seguridad vial:</b> los datos no se venden, no se comparten con terceros y no se usan para otro fin.</li>
+          <li><b>Al terminar el contrato</b> se entregan exportados y Yo Reporto pierde todo acceso.</li>
+        </ul>
+      </div>
+      <div>
+        <h3><span class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.4" stroke-linecap="round"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg></span>Privacidad del conductor</h3>
+        <ul class="lista">
+          <li><b>El GPS se lee solo durante la ruta.</b> Al terminarla, la app deja de seguir al conductor. Una notificación fija indica cuándo está activa.</li>
+          <li><b>Permisos mínimos en el celular personal:</b> ubicación y notificaciones. La app no lee contactos, fotos, mensajes ni llamadas.</li>
+          <li><b>App firmada por Yo Reporto</b> y descargada solo desde el enlace oficial.</li>
+          <li><b>Ley 1581 de 2012:</b> cada conductor autoriza el tratamiento de su ubicación con un aviso de privacidad. La Gerencia decide cuánto tiempo se conservan los recorridos.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="cuerpo">
+      <div class="aviso">
+        <p><b>Compromisos de Yo Reporto.</b> Si ocurre un incidente de seguridad que afecte los datos de la Gerencia, se le informa en un plazo máximo de 72 horas, con lo ocurrido y las medidas tomadas. Las dependencias del software se revisan y actualizan, y cada versión nueva de la app pasa una revisión de seguridad antes de llegar a los celulares.</p>
+        <p>Ningún sistema conectado a internet es invulnerable. Lo que se garantiza son estos controles, mantenidos durante todo el contrato.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. Inversión -->
 <section id="inversion">
   <div class="envoltura">
     <div class="cabeza">
-      <div class="n">07 · Inversión</div>
+      <div class="n">08 · Inversión</div>
       <div>
         <h2>Una mensualidad fija para toda la Gerencia</h2>
         <p>Un pago de implementación que incluye el primer mes de uso y, desde el segundo mes, una mensualidad fija que cubre hasta 200 usuarios: conductores, líderes y administradores de la Gerencia Barranquilla. La mensualidad cubre la operación completa: servidores, mapas, rutas, soporte, la app Android y su actualización permanente. Valores en pesos colombianos, más IVA del 19%.</p>
@@ -691,11 +751,11 @@ footer .marca{display:flex;align-items:center;gap:10px;color:#fff;font-weight:70
   </div>
 </section>
 
-<!-- 8. Condiciones -->
+<!-- 9. Condiciones -->
 <section id="condiciones">
   <div class="envoltura">
     <div class="cabeza">
-      <div class="n">08 · Condiciones</div>
+      <div class="n">09 · Condiciones</div>
       <div>
         <h2>Condiciones comerciales</h2>
       </div>
