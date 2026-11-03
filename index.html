@@ -235,6 +235,29 @@ footer .marca{display:flex;align-items:center;gap:10px;color:#fff;font-weight:70
   .caja.oscura,.cifra-grande,.contraste .con,footer{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+@media (prefers-reduced-motion:reduce){.wa-flota{transition:none}}
+/* WhatsApp */
+.wa-flota{position:fixed;right:20px;bottom:20px;z-index:20;display:flex;align-items:center;gap:10px;background:#1fa855;color:#fff;text-decoration:none;font-weight:700;font-size:15px;padding:14px 20px 14px 16px;border-radius:999px;box-shadow:0 10px 30px -8px rgba(15,23,42,.45);transition:transform .2s ease,background .2s ease}
+.wa-flota:hover{background:#178a45;transform:translateY(-2px)}
+.wa-flota:focus-visible,.wa-boton:focus-visible{outline:3px solid var(--ambar);outline-offset:3px}
+.wa-boton{display:inline-flex;align-items:center;gap:10px;background:#1fa855;color:#fff;text-decoration:none;font-weight:700;font-size:16px;padding:15px 24px;border-radius:12px;min-height:48px}
+.wa-boton:hover{background:#178a45}
+.wa-boton.claro{background:transparent;color:#178a45;border:1.5px solid #1fa855;padding:11px 18px;font-size:15px}
+.wa-boton.claro:hover{background:#e8f5ec}
+.cierre{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;background:var(--tinta);color:#e2e8f0;border-radius:16px;padding:32px;margin-top:48px}
+.cierre img{width:132px;height:132px;border-radius:50%;display:block}
+.cierre h3{color:#fff;font-size:24px;margin:0 0 6px}
+.cierre p{margin:0 0 18px;color:#cbd5e1}
+.cierre small{display:block;margin-top:12px;color:#94a3b8;font-size:13px}
+.autor{display:flex;align-items:center;gap:10px;color:#cbd5e1}
+.autor img{width:34px;height:34px;border-radius:50%}
+@media (max-width:560px){
+  .wa-flota{right:16px;bottom:16px;padding:14px}
+  .wa-flota span{display:none}
+  .cierre{grid-template-columns:1fr;padding:24px;text-align:center;justify-items:center}
+  .cierre img{width:104px;height:104px}
+}
+@media print{.wa-flota,.wa-boton{display:none}}
 </style>
 </head>
 <body>
@@ -726,6 +749,7 @@ footer .marca{display:flex;align-items:center;gap:10px;color:#fff;font-weight:70
         <div><b class="num">3 años</b><span>de servicio equivalen a un solo siniestro grave, con personas lesionadas, vehículo perdido, deducible y alza de prima, que cuesta desde $60 millones.</span></div>
         <div><b class="num">$287</b><span>por vehículo al día, con 174 camiones ($1.500.000 al mes entre 174 y entre 30 días).</span></div>
       </div>
+      <p style="margin-top:24px"><a class="wa-boton claro" href="https://wa.me/573247146958?text=Hola%20David%2C%20tengo%20preguntas%20sobre%20la%20licencia%20del%20m%C3%B3dulo%20Conducci%C3%B3n%20para%20la%20Gerencia%20Barranquilla." target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2a9.8 9.8 0 0 0-8.4 14.8L2.2 21.8l4.9-1.3A9.8 9.8 0 1 0 12 2.2z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M8.6 7.4c.3-.3.8-.3 1 .1l1 2c.1.3.1.6-.1.8l-.6.7c.6 1.3 1.6 2.3 2.9 2.9l.7-.6c.2-.2.5-.3.8-.1l2 1c.4.2.4.7.1 1-.9 1-2.2 1.3-3.4.8a10 10 0 0 1-5.2-5.2c-.5-1.2-.2-2.5.8-3.4z" fill="currentColor"/></svg>Preguntar por la licencia</a></p>
     </div>
   </div>
 </section>
@@ -751,6 +775,16 @@ footer .marca{display:flex;align-items:center;gap:10px;color:#fff;font-weight:70
         <dt>No incluye</dt><dd>Celulares (son los personales de los conductores), planes de datos, soportes y cargadores, licencias de Microsoft 365 y la plataforma GPS de la empresa.</dd>
       </dl>
 
+      <div class="cierre">
+        <img src="logo-david.png" alt="Logo de David Monsalve Guzmán" width="132" height="132">
+        <div>
+          <h3>¿Arrancamos la semana de implementación?</h3>
+          <p>Escríbame y coordinamos la entrega de datos. En cinco días Barranquilla sale a ruta con las alertas activas.</p>
+          <a class="wa-boton" href="https://wa.me/573247146958?text=Hola%20David%2C%20revis%C3%A9%20la%20propuesta%20del%20m%C3%B3dulo%20Conducci%C3%B3n%20para%20la%20Gerencia%20Barranquilla%20y%20quiero%20conversar%20sobre%20la%20implementaci%C3%B3n." target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2a9.8 9.8 0 0 0-8.4 14.8L2.2 21.8l4.9-1.3A9.8 9.8 0 1 0 12 2.2z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M8.6 7.4c.3-.3.8-.3 1 .1l1 2c.1.3.1.6-.1.8l-.6.7c.6 1.3 1.6 2.3 2.9 2.9l.7-.6c.2-.2.5-.3.8-.1l2 1c.4.2.4.7.1 1-.9 1-2.2 1.3-3.4.8a10 10 0 0 1-5.2-5.2c-.5-1.2-.2-2.5.8-3.4z" fill="currentColor"/></svg>Escribir por WhatsApp</a>
+          <small>David Monsalve Guzmán · Desarrollador de Yo Reporto · +57 324 714 6958</small>
+        </div>
+      </div>
+
       <div class="firma">
         <div><b>Yo Reporto</b>Firma y fecha</div>
         <div><b>Gerencia Barranquilla</b>Aceptación: firma, nombre y fecha</div>
@@ -761,9 +795,12 @@ footer .marca{display:flex;align-items:center;gap:10px;color:#fff;font-weight:70
 
 </main>
 
+<a class="wa-flota" href="https://wa.me/573247146958?text=Hola%20David%2C%20revis%C3%A9%20la%20propuesta%20del%20m%C3%B3dulo%20Conducci%C3%B3n%20para%20la%20Gerencia%20Barranquilla%20y%20quiero%20conversar%20sobre%20la%20implementaci%C3%B3n." target="_blank" rel="noopener" aria-label="Escribir a David por WhatsApp"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2a9.8 9.8 0 0 0-8.4 14.8L2.2 21.8l4.9-1.3A9.8 9.8 0 1 0 12 2.2z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M8.6 7.4c.3-.3.8-.3 1 .1l1 2c.1.3.1.6-.1.8l-.6.7c.6 1.3 1.6 2.3 2.9 2.9l.7-.6c.2-.2.5-.3.8-.1l2 1c.4.2.4.7.1 1-.9 1-2.2 1.3-3.4.8a10 10 0 0 1-5.2-5.2c-.5-1.2-.2-2.5.8-3.4z" fill="currentColor"/></svg><span>Hablemos</span></a>
+
 <footer>
   <div class="envoltura">
     <span class="marca"><svg width="26" height="26" aria-hidden="true"><use href="#logo"/></svg>Yo Reporto</span>
+    <span class="autor"><img src="logo-david.png" alt="" width="34" height="34">Desarrollado por David Monsalve Guzmán</span>
     <span>Propuesta YR-COND-BAQ-01 · Documento para la Gerencia Barranquilla; no distribuir · 3 de noviembre de 2026</span>
   </div>
 </footer>
