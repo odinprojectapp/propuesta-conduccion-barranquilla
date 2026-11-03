@@ -118,6 +118,12 @@ p{max-width:44em}
 .criterios li::before{content:counter(c,decimal-leading-zero);font:600 13px/1.9 var(--mono);color:var(--ambar-claro)}
 
 /* Cronograma */
+.dias{list-style:none;margin:0;padding:0;border:1px solid var(--linea-2);border-radius:14px;background:var(--hoja);overflow:hidden}
+.dias li{display:grid;grid-template-columns:120px 1fr;border-bottom:1px solid var(--linea)}
+.dias li:last-child{border-bottom:0;background:var(--ambar-fondo)}
+.dias .d1{padding:16px 18px;font:600 13px/1.4 var(--mono);color:var(--ambar-osc);text-transform:uppercase;letter-spacing:.06em;border-right:3px solid var(--ambar)}
+.dias .d2{padding:14px 18px;font-size:15px}
+.dias .d2 b{display:block;font-size:15.5px}
 .crono{border:1px solid var(--linea-2);border-radius:14px;background:var(--hoja);overflow:hidden}
 .crono-fila{display:grid;grid-template-columns:260px 1fr;border-bottom:1px solid var(--linea)}
 .crono-fila:last-child{border-bottom:0}
@@ -517,31 +523,31 @@ footer .marca{display:flex;align-items:center;gap:10px;color:#fff;font-weight:70
       <div class="n">05 · Cómo se entrega</div>
       <div>
         <h2>En una semana Barranquilla ya está alertando</h2>
-        <p>No hay que esperar a la app para empezar. La implementación toma una semana: se cargan las curvas y los usuarios de Barranquilla y la versión web, ya en producción, queda en servicio. Funciona con la pantalla encendida y la app fija. Mientras tanto se construye la app Android, que luego reemplaza a la web en los celulares, sin costo adicional.</p>
+        <p>No hay que esperar a la app para empezar. La implementación toma una semana: se cargan las curvas y los usuarios de Barranquilla y la versión web, ya en producción, queda en servicio. Funciona con la pantalla encendida y la app fija.</p>
       </div>
     </div>
     <div class="cuerpo">
-      <div class="crono">
-        <div class="crono-esc" aria-hidden="true"><div class="q">Fase</div><div class="sem"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span></div></div>
-        <div class="crono-fila"><div class="q"><b>1. Implementación</b><span>Curvas, usuarios y placas de Barranquilla, servidores, capacitación de líderes</span></div><div class="pista"><span class="sr">Semana 1</span><i style="left:0;width:6.25%"></i></div></div>
-        <div class="crono-fila"><div class="q"><b>2. Web activa en Barranquilla</b><span>Alertas, flota en vivo e historial en operación</span></div><div class="pista"><span class="sr">Desde la semana 2</span><i class="amb" style="left:6.25%;width:93.75%"></i></div></div>
-        <div class="crono-fila"><div class="q"><b>3. Construcción de la app</b><span>Servicio nativo, motor de alertas, modo sin señal</span></div><div class="pista"><span class="sr">Semanas 2 a 11</span><i style="left:6.25%;width:62.5%"></i></div></div>
-        <div class="crono-fila"><div class="q"><b>4. Ajuste por fabricante</b><span>Permisos, batería, guía por marca</span></div><div class="pista"><span class="sr">Semanas 10 a 12</span><i style="left:56.25%;width:18.75%"></i></div></div>
-        <div class="crono-fila"><div class="q"><b>5. Piloto de campo</b><span>10 a 15 conductores, rutas reales, medición</span></div><div class="pista"><span class="sr">Semanas 13 y 14, aceptación al cierre de la 14</span><i style="left:75%;width:12.5%"></i><i class="hito" style="left:87.5%"></i></div></div>
-        <div class="crono-fila"><div class="q"><b>6. Despliegue a toda la flota</b><span>Instalación y permisos en cada celular</span></div><div class="pista"><span class="sr">Semanas 15 y 16</span><i style="left:87.5%;width:12.5%"></i></div></div>
-      </div>
-      <p style="font-size:14px;color:var(--tinta-3);margin-top:12px">Barra ámbar: la versión web en servicio desde la semana 2. Rombo rojo: aceptación del piloto con los criterios de la sección 04, antes de instalar la app en toda la flota. La semana de implementación corre desde que la Gerencia entrega los datos de la sección 06. Si el piloto requiere corrección, se suman hasta 3 semanas.</p>
+      <ol class="dias">
+        <li><span class="d1">Día 1</span><span class="d2"><b>Arranque</b>Entrega de datos y accesos, decisiones de operación y servidores listos.</span></li>
+        <li><span class="d1">Día 2</span><span class="d2"><b>Curvas</b>Las curvas críticas de Barranquilla se cargan como tramos de vía y se verifican en el mapa.</span></li>
+        <li><span class="d1">Día 3</span><span class="d2"><b>Usuarios y placas</b>Conductores, líderes y administradores con su rol y su clave; placas tomadas de la planeación.</span></li>
+        <li><span class="d1">Día 4</span><span class="d2"><b>Capacitación</b>Líderes en la flota en vivo, el historial y la configuración; conductores en el Modo ruta.</span></li>
+        <li><span class="d1">Día 5</span><span class="d2"><b>En operación</b>Barranquilla sale a ruta con alertas, flota en vivo e historial.</span></li>
+      </ol>
+      <p style="font-size:14px;color:var(--tinta-3);margin-top:12px">La semana corre desde que la Gerencia entrega los datos y accesos de la sección 06.</p>
+
+      <h3 style="margin-top:36px">Después: la app Android</h3>
+      <p style="color:var(--tinta-2);margin-top:0">La app Android se construye después de la implementación, incluida en la mensualidad y sin costo adicional, y llega a los celulares dentro del contrato mínimo de seis meses. Antes de pasar a toda la flota se prueba con 10 a 15 conductores y debe cumplir los criterios de la sección 04. Mientras tanto, la versión web sigue en servicio.</p>
 
       <div class="dos-col">
         <div>
           <h3>Entregables</h3>
           <ul class="lista">
-            <li>App Android firmada, instalada en los celulares de la flota.</li>
-            <li>Curvas críticas de Barranquilla cargadas como tramos de vía y verificadas.</li>
+                        <li>Curvas críticas de Barranquilla cargadas como tramos de vía y verificadas.</li>
             <li>Usuarios de conductores, líderes y administradores creados con su rol.</li>
             <li>Manual del conductor de una página y manual del líder.</li>
             <li>Capacitación en sitio a líderes y en grupos a conductores.</li>
-            <li>Informe del piloto con las mediciones de cada criterio.</li>
+            <li>Después, la app Android firmada y el informe de su piloto con las mediciones de cada criterio.</li>
           </ul>
         </div>
         <div>
@@ -655,12 +661,6 @@ footer .marca{display:flex;align-items:center;gap:10px;color:#fff;font-weight:70
           <li><b>App firmada por Yo Reporto</b> y descargada solo desde el enlace oficial.</li>
           <li><b>Ley 1581 de 2012:</b> cada conductor autoriza el tratamiento de su ubicación con un aviso de privacidad. La Gerencia decide cuánto tiempo se conservan los recorridos.</li>
         </ul>
-      </div>
-    </div>
-    <div class="cuerpo">
-      <div class="aviso">
-        <p><b>Compromisos de Yo Reporto.</b> Si ocurre un incidente de seguridad que afecte los datos de la Gerencia, se le informa en un plazo máximo de 72 horas, con lo ocurrido y las medidas tomadas. Las dependencias del software se revisan y actualizan, y cada versión nueva de la app pasa una revisión de seguridad antes de llegar a los celulares.</p>
-        <p>Ningún sistema conectado a internet es invulnerable. Lo que se garantiza son estos controles, mantenidos durante todo el contrato.</p>
       </div>
     </div>
   </div>
