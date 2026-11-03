@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Conducción · Demo Vía al Mar</title>
+<meta name="description" content="Recreación del Modo ruta de Yo Reporto en la Vía al Mar: alertas de curva por voz y aviso al líder.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f59e0b'/%3E%3Crect x='19' y='10' width='26' height='31' rx='5' fill='%230f172a'/%3E%3Crect x='23' y='14' width='18' height='22' rx='2.5' fill='%23fbbf24'/%3E%3Cpath d='M26.5 25 L30.5 29.5 L38 19' fill='none' stroke='%230f172a' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M17 47 L47 47 A3.5 3.5 0 0 1 47 54 L24 54 A7 7 0 0 1 17 47 Z' fill='%230f172a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{
+  --tinta:#0f172a; --tinta-2:#334155; --tinta-3:#64748b;
+  --papel:#fbfaf7; --hoja:#fff; --linea:#e7e2d8; --linea-2:#d6cfc2;
+  --ambar:#f59e0b; --ambar-claro:#fbbf24; --ambar-osc:#b45309; --ambar-fondo:#fff7e6;
+  --rojo:#dc2626; --verde:#15803d;
+  --mono:"JetBrains Mono",ui-monospace,monospace; --sans:"Archivo",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--papel);color:var(--tinta);font:16px/1.55 var(--sans)}
+a{color:var(--ambar-osc)}
+.barra{background:var(--tinta);color:#e2e8f0}
+.barra .env{max-width:1180px;margin:0 auto;padding:0 20px;height:56px;display:flex;align-items:center;gap:14px}
+.barra .marca{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;text-decoration:none}
+.barra .volver{margin-left:auto;color:#cbd5e1;font-size:14px;text-decoration:none}
+.barra .volver:hover{color:#fff}
+.env{max-width:1180px;margin:0 auto;padding:0 20px}
+.cuerpo{display:grid;grid-template-columns:400px 1fr;gap:40px;padding:36px 0 56px;align-items:start}
+
+/* Teléfono */
+.telefono{position:sticky;top:20px;width:400px;height:800px;border-radius:44px;background:#0b1120;padding:12px;box-shadow:0 30px 60px -20px rgba(15,23,42,.55)}
+.pantalla{position:relative;width:100%;height:100%;border-radius:34px;overflow:hidden;background:#020617;color:#fff}
+#mapa{position:absolute;inset:0;background:#cbd5e1}
+#mapa .leaflet-tile-pane{filter:saturate(.25) brightness(.92) contrast(1.05)}
+.leaflet-control-attribution{font-size:9px!important}
+.cabecera{position:absolute;top:0;left:0;right:0;z-index:1000;padding:14px 14px 12px;background:rgba(2,6,23,.9);box-shadow:0 4px 12px rgba(0,0,0,.3);transition:background .25s}
+.cabecera.aviso{background:#f59e0b;color:#020617}
+.cabecera.peligro{background:#dc2626}
+.fila{display:flex;align-items:center;gap:10px}
+.vel{width:84px;text-align:center;flex:none}
+.vel b{display:block;font:900 54px/1 var(--sans);font-variant-numeric:tabular-nums}
+.vel span{font-size:13px;font-weight:600;opacity:.8}
+.senal{width:64px;height:64px;flex:none;border-radius:50%;border:6px solid #dc2626;background:#fff;color:#020617;display:flex;align-items:center;justify-content:center;font:900 26px/1 var(--sans);font-variant-numeric:tabular-nums;box-shadow:0 0 0 2px #fff,0 4px 10px rgba(0,0,0,.3)}
+.msg{min-width:0;flex:1}
+.msg .t{font-size:19px;font-weight:900;line-height:1.15;margin:0}
+.msg .d{font-size:14.5px;font-weight:600;margin:2px 0 0}
+.msg .info{font-size:13.5px;color:#cbd5e1;margin:0;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.placa{background:#facc15;color:#0f172a;border:1.5px solid #0f172a;border-radius:3px;padding:0 4px;font:700 11px/16px var(--mono);letter-spacing:.04em}
+.borde{position:absolute;inset:0;z-index:1001;border:12px solid #dc2626;pointer-events:none;display:none;animation:latido 1s ease-in-out infinite}
+.borde.on{display:block}
+@keyframes latido{50%{opacity:.35}}
+.pie{position:absolute;bottom:0;left:0;right:0;z-index:1000;padding:12px 14px 14px;background:rgba(2,6,23,.9)}
+.prox{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px;margin:0 0 10px;min-height:32px}
+.prox i{font-style:normal;width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:#fff}
+.terminar{width:100%;min-height:48px;border-radius:16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;font:600 15px var(--sans);opacity:.4}
+.inicio{position:absolute;inset:0;z-index:1002;background:rgba(2,6,23,.82);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px;gap:14px}
+.inicio h2{margin:0;font-size:24px}
+.inicio p{margin:0;color:#cbd5e1;font-size:15px}
+.btn-inicio{min-height:56px;padding:0 28px;border-radius:16px;border:0;background:#fbbf24;color:#0f172a;font:800 18px var(--sans);cursor:pointer}
+.btn-inicio:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.oculto{display:none!important}
+
+/* Panel */
+.sobre{font:600 13px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ambar-osc)}
+h1{font-size:clamp(30px,4vw,44px);line-height:1.05;letter-spacing:-.02em;margin:12px 0 12px;font-weight:800}
+.lead{color:var(--tinta-2);font-size:17px;margin:0 0 24px;max-width:40em}
+.controles{display:grid;gap:16px;border:1px solid var(--linea-2);border-radius:14px;background:var(--hoja);padding:20px}
+.grupo label.t{display:block;font:600 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--tinta-3);margin-bottom:8px}
+.seg{display:inline-flex;border:1px solid var(--linea-2);border-radius:10px;overflow:hidden;flex-wrap:wrap}
+.seg button{border:0;background:transparent;padding:10px 14px;font:600 14.5px var(--sans);color:var(--tinta-2);cursor:pointer;min-height:44px}
+.seg button+button{border-left:1px solid var(--linea-2)}
+.seg button[aria-pressed="true"]{background:var(--tinta);color:#fff}
+.acciones{display:flex;gap:10px;flex-wrap:wrap}
+.btn{min-height:46px;padding:0 18px;border-radius:10px;border:1px solid var(--linea-2);background:var(--hoja);font:700 15px var(--sans);color:var(--tinta);cursor:pointer}
+.btn.prim{background:var(--ambar);border-color:var(--ambar)}
+.btn:focus-visible,.seg button:focus-visible{outline:3px solid var(--ambar);outline-offset:2px}
+.nota{font-size:13.5px;color:var(--tinta-3);margin:0}
+
+.lider{margin-top:24px;border-radius:14px;background:var(--tinta);color:#e2e8f0;padding:20px;min-height:220px}
+.lider h2{margin:0 0 4px;font-size:18px;color:#fff;display:flex;align-items:center;gap:8px}
+.lider .sub{margin:0 0 14px;color:#94a3b8;font-size:14px}
+.estado-camion{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid #26324a;border-radius:10px;font-size:14.5px}
+.punto{width:12px;height:12px;border-radius:50%;background:#2563eb;flex:none}
+.punto.curva{background:#dc2626;border-radius:2px;transform:rotate(45deg)}
+.punto.det{background:#64748b}
+.push{margin-top:14px;background:#f8fafc;color:#0f172a;border-radius:14px;padding:12px 14px;display:flex;gap:12px;box-shadow:0 10px 24px -10px rgba(0,0,0,.5);animation:entra .35s ease-out}
+.push img,.push .ic{width:36px;height:36px;border-radius:9px;flex:none}
+.push b{display:block;font-size:14.5px}
+.push p{margin:2px 0 0;font-size:13.5px;color:#334155}
+.push small{color:#64748b;font-size:12px}
+@keyframes entra{from{transform:translateY(-8px);opacity:0}}
+.lista-ex{list-style:none;margin:14px 0 0;padding:0;font-size:14px}
+.lista-ex li{display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;padding:8px 0;border-top:1px solid #26324a}
+.lista-ex li i{font-style:normal;width:22px;height:22px;border-radius:50%;background:#dc2626;color:#fff;font:700 11px/22px var(--mono);text-align:center}
+.vacio{color:#94a3b8;font-size:14px;margin:14px 0 0}
+.resumen{margin-top:14px;border:1px solid #26324a;border-radius:10px;padding:12px;font-size:14.5px}
+.aclara{margin-top:20px;border-left:4px solid var(--ambar);background:var(--ambar-fondo);padding:14px 16px;border-radius:0 10px 10px 0;font-size:14px;color:var(--tinta-2)}
+.aclara p{margin:0}
+
+@media (max-width:900px){
+  .cuerpo{grid-template-columns:1fr;gap:24px;padding-top:20px}
+  .telefono{position:relative;top:0;width:100%;max-width:420px;height:min(78vh,720px);margin:0 auto;border-radius:28px;padding:8px}
+  .pantalla{border-radius:22px}
+  .panel{order:2}
+}
+@media (max-width:420px){
+  .env{padding:0 16px}
+  .telefono{padding:0;border-radius:18px;height:72vh;min-height:520px}
+  .pantalla{border-radius:18px}
+  .vel{width:70px}.vel b{font-size:46px}
+  .senal{width:56px;height:56px;font-size:22px;border-width:5px}
+  .msg .t{font-size:17px}
+  .barra .volver span{display:none}
+}
+@media (prefers-reduced-motion:reduce){.borde{animation:none}.push{animation:none}}
+</style>
+</head>
+<body>
+<header class="barra">
+  <div class="env" style="padding:0 20px">
+    <a class="marca" href="./"><svg width="28" height="28" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#f59e0b"/><rect x="19" y="10" width="26" height="31" rx="5" fill="#0f172a"/><rect x="23" y="14" width="18" height="22" rx="2.5" fill="#fbbf24"/><path d="M26.5 25 L30.5 29.5 L38 19" fill="none" stroke="#0f172a" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.5 20 A10 10 0 0 1 12.5 9" fill="none" stroke="#0f172a" stroke-width="3.2" stroke-linecap="round"/><path d="M51.5 9 A10 10 0 0 1 51.5 20" fill="none" stroke="#0f172a" stroke-width="3.2" stroke-linecap="round"/><path d="M17 47 L47 47 A3.5 3.5 0 0 1 47 54 L24 54 A7 7 0 0 1 17 47 Z" fill="#0f172a"/></svg>Yo Reporto · Demo</a>
+    <a class="volver" href="./">← <span>Volver a la </span>propuesta</a>
+  </div>
+</header>
+
+<div class="env">
+  <div class="cuerpo">
+    <div class="telefono" aria-label="Pantalla del conductor">
+      <div class="pantalla">
+        <div id="mapa"></div>
+        <div class="borde" id="borde" aria-hidden="true"></div>
+        <div class="cabecera" id="cabecera">
+          <div class="fila">
+            <div class="vel"><b id="kmh">0</b><span>km/h</span></div>
+            <div class="senal" id="senal" role="img" aria-label="Velocidad máxima 65">65</div>
+            <div class="msg" id="msg" aria-live="polite"></div>
+          </div>
+        </div>
+        <div class="pie">
+          <p class="prox" id="prox"></p>
+          <button class="terminar" disabled id="terminar">Detén el vehículo para terminar</button>
+        </div>
+        <div class="inicio" id="inicio">
+          <h2>Modo ruta · Vía al Mar</h2>
+          <p>Sube el volumen: las alertas son por voz, como en la cabina.</p>
+          <button class="btn-inicio" id="btnInicio">Iniciar recorrido</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="sobre">Demo interactivo</div>
+      <h1>Un camión por la Vía al Mar</h1>
+      <p class="lead">Así ve y escucha el conductor el Modo ruta en un tramo de 5,5 km de la Vía al Mar, hacia Santa Verónica, con cuatro curvas marcadas. Al lado, lo que recibe el líder cuando hay un exceso.</p>
+
+      <div class="controles">
+        <div class="grupo">
+          <label class="t">Cómo maneja el conductor</label>
+          <div class="seg" role="group" aria-label="Cómo maneja el conductor">
+            <button type="button" data-modo="prudente" aria-pressed="true">Frena a tiempo</button>
+            <button type="button" data-modo="imprudente" aria-pressed="false">No frena</button>
+          </div>
+        </div>
+        <div class="grupo">
+          <label class="t">Velocidad de la simulación</label>
+          <div class="seg" role="group" aria-label="Velocidad de la simulación">
+            <button type="button" data-x="1" aria-pressed="false">Real</button>
+            <button type="button" data-x="3" aria-pressed="true">×3</button>
+            <button type="button" data-x="6" aria-pressed="false">×6</button>
+          </div>
+        </div>
+        <div class="acciones">
+          <button class="btn prim" id="btnPausa" type="button">Iniciar</button>
+          <button class="btn" id="btnReiniciar" type="button">Reiniciar</button>
+          <button class="btn" id="btnVoz" type="button" aria-pressed="true">Voz: activada</button>
+        </div>
+        <p class="nota">Los km/h son reales; con ×3 o ×6 solo se acelera el tiempo. El modo se puede cambiar en plena ruta.</p>
+      </div>
+
+      <section class="lider" aria-label="Vista del líder">
+        <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.4" stroke-linecap="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg>Lo que ve el líder</h2>
+        <p class="sub">Flota en vivo y notificación en su celular o PC.</p>
+        <div class="estado-camion"><span class="punto" id="ptoLider"></span><span class="placa">DEM001</span><span id="estadoLider">Esperando inicio de ruta</span></div>
+        <div id="pushes"></div>
+        <ul class="lista-ex" id="listaEx"></ul>
+        <p class="vacio" id="vacio">Sin excesos en este recorrido.</p>
+        <div class="resumen oculto" id="resumen"></div>
+      </section>
+
+      <div class="aclara">
+        <p><b>Recreación con la misma lógica de la app en producción:</b> anuncio a 300 m de la entrada (hasta 400 m si viene rápido), «Reduzca» cada 5 segundos mientras haya exceso, exceso registrado con 2 lecturas sobre el límite + 3 km/h y aviso al líder al salir de la curva. La vía y su trazado son reales; las cuatro curvas son de ejemplo. Las de la Gerencia se cargan desde el listado de su plataforma GPS.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+const DATOS = {"ruta":[[10.96279,-74.9995],[10.96272,-74.99956],[10.96266,-74.99961],[10.96259,-74.99967],[10.96255,-74.9997],[10.96248,-74.99976],[10.9624,-74.99982],[10.96232,-74.99989],[10.96224,-74.99994],[10.96216,-74.99999],[10.96208,-75.00005],[10.96199,-75.0001],[10.96191,-75.00015],[10.96182,-75.00019],[10.96173,-75.00023],[10.96164,-75.00027],[10.96156,-75.00031],[10.96147,-75.00035],[10.96138,-75.00038],[10.9613,-75.00042],[10.96121,-75.00045],[10.96112,-75.00049],[10.96104,-75.00052],[10.96095,-75.00056],[10.96086,-75.00059],[10.96077,-75.00063],[10.96069,-75.00066],[10.9606,-75.0007],[10.96051,-75.00073],[10.96043,-75.00077],[10.96034,-75.0008],[10.96025,-75.00084],[10.96016,-75.00087],[10.96008,-75.00091],[10.95999,-75.00094],[10.9599,-75.00098],[10.95982,-75.00101],[10.95973,-75.00105],[10.95964,-75.00108],[10.95956,-75.00112],[10.95947,-75.00115],[10.95939,-75.0012],[10.95931,-75.00125],[10.95922,-75.0013],[10.95914,-75.00137],[10.95906,-75.00143],[10.95898,-75.00149],[10.95892,-75.00156],[10.95885,-75.00162],[10.95879,-75.00169],[10.95872,-75.00175],[10.95866,-75.00181],[10.95859,-75.00188],[10.95853,-75.00194],[10.95846,-75.00201],[10.9584,-75.00207],[10.95833,-75.00214],[10.95827,-75.0022],[10.9582,-75.00227],[10.95813,-75.00234],[10.95806,-75.00241],[10.95799,-75.00248],[10.95792,-75.00255],[10.95785,-75.00262],[10.95778,-75.00269],[10.95771,-75.00276],[10.95764,-75.00282],[10.95757,-75.00289],[10.95751,-75.00295],[10.95744,-75.00302],[10.95737,-75.00308],[10.9573,-75.00315],[10.95723,-75.0032],[10.95716,-75.00326],[10.95704,-75.00333],[10.95693,-75.00339],[10.95679,-75.00347],[10.9567,-75.0035],[10.95662,-75.00354],[10.95651,-75.00358],[10.9564,-75.00362],[10.95627,-75.00365],[10.95614,-75.00368],[10.95605,-75.00369],[10.95596,-75.00371],[10.95587,-75.00372],[10.95578,-75.00373],[10.95569,-75.00375],[10.9556,-75.00376],[10.95551,-75.00377],[10.95542,-75.00378],[10.95533,-75.0038],[10.95524,-75.00381],[10.95515,-75.00382],[10.95506,-75.00383],[10.95498,-75.00385],[10.95489,-75.00386],[10.9548,-75.00387],[10.95471,-75.00389],[10.95462,-75.0039],[10.95453,-75.00391],[10.95444,-75.00392],[10.95435,-75.00394],[10.95426,-75.00395],[10.95417,-75.00396],[10.95408,-75.00397],[10.95399,-75.00399],[10.9539,-75.004],[10.95381,-75.00401],[10.95371,-75.00402],[10.95361,-75.00403],[10.95352,-75.00404],[10.95342,-75.00405],[10.95332,-75.00406],[10.95322,-75.00407],[10.95312,-75.00408],[10.95301,-75.00408],[10.95289,-75.00409],[10.95278,-75.0041],[10.95268,-75.0041],[10.95259,-75.0041],[10.95249,-75.0041],[10.95239,-75.0041],[10.95228,-75.00408],[10.95218,-75.00407],[10.95208,-75.00406],[10.95199,-75.00404],[10.9519,-75.00403],[10.95178,-75.004],[10.95167,-75.00397],[10.95158,-75.00394],[10.95149,-75.00391],[10.95139,-75.00389],[10.9513,-75.00386],[10.95121,-75.00383],[10.95112,-75.0038],[10.95102,-75.00377],[10.95093,-75.00375],[10.95084,-75.00372],[10.95075,-75.00369],[10.95066,-75.00366],[10.95056,-75.00363],[10.95047,-75.00361],[10.95034,-75.00357],[10.95022,-75.00353],[10.95012,-75.00351],[10.95002,-75.00349],[10.94993,-75.00347],[10.94983,-75.00345],[10.94973,-75.00344],[10.94963,-75.00343],[10.94951,-75.00343],[10.94938,-75.00343],[10.94926,-75.00344],[10.94913,-75.00345],[10.94902,-75.00348],[10.9489,-75.0035],[10.94879,-75.00353],[10.9487,-75.00356],[10.94862,-75.00358],[10.94853,-75.00361],[10.94844,-75.00364],[10.94836,-75.00367],[10.94826,-75.00372],[10.94817,-75.00376],[10.94808,-75.00381],[10.948,-75.00386],[10.94791,-75.00391],[10.94783,-75.00397],[10.94775,-75.00403],[10.94767,-75.00408],[10.94759,-75.00414],[10.94751,-75.00419],[10.94743,-75.00425],[10.94735,-75.00431],[10.94727,-75.00436],[10.94719,-75.00442],[10.94711,-75.00447],[10.94703,-75.00453],[10.94695,-75.00458],[10.94688,-75.00463],[10.9468,-75.00468],[10.94672,-75.00473],[10.94665,-75.00478],[10.94657,-75.00483],[10.94649,-75.00488],[10.94642,-75.00494],[10.94634,-75.00499],[10.94626,-75.00504],[10.94619,-75.00509],[10.94611,-75.00514],[10.94604,-75.00519],[10.94596,-75.00524],[10.94588,-75.00529],[10.94581,-75.00534],[10.94572,-75.0054],[10.94564,-75.00545],[10.94556,-75.00551],[10.94548,-75.00557],[10.9454,-75.00563],[10.94532,-75.00568],[10.94524,-75.00574],[10.94516,-75.0058],[10.94508,-75.00586],[10.945,-75.00592],[10.94492,-75.00598],[10.94484,-75.00605],[10.94477,-75.00611],[10.94469,-75.00618],[10.94462,-75.00625],[10.94455,-75.00633],[10.94448,-75.00641],[10.94442,-75.0065],[10.94435,-75.00659],[10.94429,-75.00666],[10.94424,-75.00674],[10.94418,-75.00682],[10.94413,-75.0069],[10.94407,-75.00697],[10.94402,-75.00705],[10.94397,-75.00713],[10.94391,-75.00721],[10.94386,-75.00729],[10.9438,-75.00736],[10.94376,-75.00745],[10.94372,-75.00754],[10.94368,-75.00763],[10.94363,-75.00772],[10.94359,-75.00781],[10.94354,-75.0079],[10.94351,-75.00799],[10.94348,-75.00809],[10.94345,-75.00818],[10.94342,-75.00827],[10.94339,-75.00836],[10.94337,-75.00846],[10.94334,-75.00856],[10.94332,-75.00866],[10.9433,-75.00876],[10.94327,-75.00885],[10.94325,-75.00895],[10.94323,-75.00904],[10.94321,-75.00913],[10.94319,-75.00922],[10.94317,-75.00931],[10.94315,-75.0094],[10.94313,-75.00949],[10.94311,-75.00958],[10.94309,-75.00967],[10.94307,-75.00976],[10.94305,-75.00985],[10.94303,-75.00994],[10.94302,-75.01003],[10.943,-75.01012],[10.94298,-75.01021],[10.94296,-75.0103],[10.94294,-75.01039],[10.94292,-75.01047],[10.9429,-75.01056],[10.94288,-75.01065],[10.94286,-75.01074],[10.94284,-75.01083],[10.94282,-75.01092],[10.9428,-75.01101],[10.94278,-75.0111],[10.94276,-75.01119],[10.94274,-75.01128],[10.94273,-75.01137],[10.94271,-75.01146],[10.94269,-75.01155],[10.94267,-75.01164],[10.94265,-75.01173],[10.94263,-75.01182],[10.94261,-75.01191],[10.94259,-75.012],[10.94257,-75.0121],[10.94255,-75.0122],[10.94253,-75.0123],[10.94251,-75.0124],[10.94249,-75.0125],[10.94247,-75.0126],[10.94246,-75.0127],[10.94244,-75.0128],[10.94243,-75.0129],[10.94242,-75.013],[10.94241,-75.01311],[10.94239,-75.01321],[10.94239,-75.01331],[10.94238,-75.01341],[10.94238,-75.01351],[10.94237,-75.01362],[10.94237,-75.01372],[10.94236,-75.01382],[10.94237,-75.01392],[10.94238,-75.01403],[10.94238,-75.01413],[10.94239,-75.01423],[10.94239,-75.01433],[10.9424,-75.01444],[10.94241,-75.01453],[10.94242,-75.01462],[10.94243,-75.01471],[10.94245,-75.0148],[10.94246,-75.0149],[10.94247,-75.01499],[10.94248,-75.01508],[10.9425,-75.01517],[10.94251,-75.01526],[10.94252,-75.01536],[10.94253,-75.01545],[10.94255,-75.01554],[10.94256,-75.01563],[10.94257,-75.01572],[10.94258,-75.01582],[10.9426,-75.01591],[10.94261,-75.016],[10.94262,-75.01609],[10.94263,-75.01618],[10.94265,-75.01628],[10.94266,-75.01637],[10.94267,-75.01646],[10.94268,-75.01655],[10.9427,-75.01664],[10.9427,-75.01674],[10.94271,-75.01684],[10.94272,-75.01694],[10.94273,-75.01703],[10.94273,-75.01713],[10.94273,-75.01722],[10.94272,-75.01732],[10.94271,-75.01741],[10.9427,-75.0175],[10.9427,-75.01759],[10.94267,-75.0177],[10.94265,-75.0178],[10.94262,-75.01791],[10.9426,-75.01801],[10.94257,-75.01811],[10.94254,-75.0182],[10.94251,-75.01829],[10.94248,-75.01839],[10.94244,-75.01849],[10.94239,-75.01859],[10.94235,-75.01869],[10.9423,-75.01879],[10.94224,-75.01888],[10.94219,-75.01898],[10.94213,-75.01908],[10.94207,-75.01917],[10.94202,-75.01925],[10.94196,-75.01933],[10.94191,-75.01941],[10.94184,-75.01947],[10.94177,-75.01954],[10.94171,-75.0196],[10.94164,-75.01966],[10.94158,-75.01973],[10.94149,-75.01981],[10.9414,-75.01989],[10.94133,-75.01995],[10.94125,-75.02],[10.94117,-75.02006],[10.9411,-75.02012],[10.94102,-75.02018],[10.94094,-75.02023],[10.94087,-75.02029],[10.94079,-75.02034],[10.94072,-75.02039],[10.94064,-75.02045],[10.94057,-75.0205],[10.94049,-75.02056],[10.94042,-75.02061],[10.94034,-75.02066],[10.94027,-75.02071],[10.9402,-75.02077],[10.94012,-75.02082],[10.94005,-75.02088],[10.93997,-75.02093],[10.9399,-75.02098],[10.93982,-75.02104],[10.93975,-75.02109],[10.93968,-75.02115],[10.9396,-75.0212],[10.93953,-75.02125],[10.93945,-75.02131],[10.93938,-75.02136],[10.93931,-75.02141],[10.93923,-75.02147],[10.93916,-75.02152],[10.93908,-75.02158],[10.93901,-75.02163],[10.93893,-75.02168],[10.93886,-75.02174],[10.93879,-75.02179],[10.93871,-75.02184],[10.93864,-75.0219],[10.93856,-75.02195],[10.93849,-75.02201],[10.93842,-75.02206],[10.93834,-75.02211],[10.93827,-75.02217],[10.93819,-75.02222],[10.93812,-75.02227],[10.93804,-75.02233],[10.93797,-75.02238],[10.9379,-75.02244],[10.93782,-75.02249],[10.93775,-75.02254],[10.93767,-75.0226],[10.9376,-75.02265],[10.93753,-75.0227],[10.93745,-75.02276],[10.93738,-75.02281],[10.9373,-75.02287],[10.93723,-75.02292],[10.93715,-75.02297],[10.93708,-75.02303],[10.93701,-75.02308],[10.93693,-75.02313],[10.93686,-75.02319],[10.93678,-75.02324],[10.9367,-75.02329],[10.93662,-75.02334],[10.93654,-75.02339],[10.93646,-75.02344],[10.93638,-75.02349],[10.93628,-75.02354],[10.93619,-75.02358],[10.93609,-75.02363],[10.93599,-75.02367],[10.9359,-75.02372],[10.93581,-75.02374],[10.93572,-75.02377],[10.93563,-75.0238],[10.93554,-75.02382],[10.93544,-75.02384],[10.93533,-75.02386],[10.93523,-75.02388],[10.93512,-75.0239],[10.93502,-75.02391],[10.93491,-75.02391],[10.9348,-75.02392],[10.93469,-75.02392],[10.9346,-75.02391],[10.93451,-75.0239],[10.93442,-75.0239],[10.93433,-75.02389],[10.93424,-75.02388],[10.93415,-75.02386],[10.93405,-75.02383],[10.93395,-75.02381],[10.93385,-75.02379],[10.93376,-75.02376],[10.93367,-75.02373],[10.93359,-75.0237],[10.9335,-75.02367],[10.93341,-75.02363],[10.93332,-75.0236],[10.93323,-75.02357],[10.93314,-75.02354],[10.93304,-75.0235],[10.93294,-75.02346],[10.93285,-75.02341],[10.93276,-75.02338],[10.93268,-75.02334],[10.93259,-75.02331],[10.93251,-75.02328],[10.93243,-75.02324],[10.93234,-75.02321],[10.93226,-75.02317],[10.93217,-75.02314],[10.93209,-75.0231],[10.932,-75.02307],[10.93192,-75.02303],[10.93184,-75.023],[10.93175,-75.02296],[10.93167,-75.02293],[10.93158,-75.0229],[10.9315,-75.02286],[10.93142,-75.02283],[10.93133,-75.02279],[10.93125,-75.02276],[10.93116,-75.02272],[10.93108,-75.02269],[10.93099,-75.02265],[10.93091,-75.02262],[10.93083,-75.02258],[10.93074,-75.02255],[10.93065,-75.02252],[10.93057,-75.02248],[10.93048,-75.02244],[10.9304,-75.02241],[10.93031,-75.02237],[10.93023,-75.02234],[10.93015,-75.0223],[10.93006,-75.02226],[10.92998,-75.02223],[10.92989,-75.02219],[10.92981,-75.02216],[10.92972,-75.02212],[10.92964,-75.02208],[10.92955,-75.02205],[10.92947,-75.02201],[10.92938,-75.02198],[10.9293,-75.02194],[10.92921,-75.0219],[10.92913,-75.02187],[10.92904,-75.02183],[10.92896,-75.0218],[10.92887,-75.02176],[10.92879,-75.02172],[10.9287,-75.02169],[10.92862,-75.02165],[10.92853,-75.02162],[10.92844,-75.02158],[10.92836,-75.02154],[10.92827,-75.02151],[10.92819,-75.02147],[10.9281,-75.02144]],"paso":10,"curvas":[{"id":1,"t":"a","v":30,"s0":727,"s1":880,"p":[[10.95737,-75.00308],[10.9573,-75.00315],[10.95723,-75.0032],[10.95716,-75.00326],[10.95704,-75.00333],[10.95693,-75.00339],[10.95679,-75.00347],[10.9567,-75.0035],[10.95662,-75.00354],[10.95651,-75.00358],[10.9564,-75.00362],[10.95627,-75.00365],[10.95614,-75.00368]]},{"id":2,"t":"c","v":20,"s0":1601,"s1":1746,"p":[[10.94973,-75.00344],[10.94963,-75.00343],[10.94951,-75.00343],[10.94938,-75.00343],[10.94926,-75.00344],[10.94913,-75.00345],[10.94902,-75.00348],[10.9489,-75.0035],[10.94879,-75.00353],[10.9487,-75.00356],[10.94862,-75.00358],[10.94853,-75.00361],[10.94844,-75.00364]]},{"id":3,"t":"a","v":30,"s0":3619,"s1":3759,"p":[[10.94254,-75.0182],[10.94251,-75.01829],[10.94248,-75.01839],[10.94244,-75.01849],[10.94239,-75.01859],[10.94235,-75.01869],[10.9423,-75.01879],[10.94224,-75.01888],[10.94219,-75.01898],[10.94213,-75.01908],[10.94207,-75.01917],[10.94202,-75.01925],[10.94196,-75.01933]]},{"id":4,"t":"c","v":20,"s0":4606,"s1":4741,"p":[[10.93572,-75.02377],[10.93563,-75.0238],[10.93554,-75.02382],[10.93544,-75.02384],[10.93533,-75.02386],[10.93523,-75.02388],[10.93512,-75.0239],[10.93502,-75.02391],[10.93491,-75.02391],[10.9348,-75.02392],[10.93469,-75.02392],[10.9346,-75.02391],[10.93451,-75.0239]]}]};
+const PLACA = "DEM001";
+const LIMITE_VIA = 65, CRUCERO = 60, TOL = 3, AVISO_M = 300, ANTICIPO_MAX = 400, REACCION = 3, DESAC = 1.0;
+const SALIDA_MARGEN = 15, LECTURAS_EXCESO = 2, REPETIR_MS = 5000;
+
+/* ── Geometría ── */
+const R = DATOS.ruta;
+const S = [0];
+function dist(a, b) {
+  const la = (a[0] + b[0]) / 2 * Math.PI / 180;
+  return Math.hypot((b[0] - a[0]) * 110540, (b[1] - a[1]) * 111320 * Math.cos(la));
+}
+for (let i = 1; i < R.length; i++) S.push(S[i - 1] + dist(R[i - 1], R[i]));
+const TOTAL = S[S.length - 1];
+function rumbo(a, b) {
+  const la = (a[0] + b[0]) / 2 * Math.PI / 180;
+  return (Math.atan2((b[1] - a[1]) * Math.cos(la), b[0] - a[0]) * 180 / Math.PI + 360) % 360;
+}
+function puntoEn(s) {
+  s = Math.max(0, Math.min(TOTAL, s));
+  let i = 1;
+  while (i < S.length - 1 && S[i] < s) i++;
+  const t = (s - S[i - 1]) / ((S[i] - S[i - 1]) || 1);
+  const a = R[i - 1], b = R[i];
+  return { lat: a[0] + (b[0] - a[0]) * t, lon: a[1] + (b[1] - a[1]) * t, rumbo: rumbo(a, b) };
+}
+const CURVAS = DATOS.curvas.map(c => ({ ...c, cerrada: c.t === "c" }));
+
+/* ── Mapa ── */
+const mapa = L.map("mapa", { zoomControl: false, attributionControl: true, dragging: false, scrollWheelZoom: false, doubleClickZoom: false, touchZoom: false, keyboard: false });
+L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "© OpenStreetMap" }).addTo(mapa);
+L.polyline(R, { color: "#2563eb", weight: 7, opacity: .95 }).addTo(mapa);
+for (const c of CURVAS) {
+  const color = c.cerrada ? "#dc2626" : "#f59e0b";
+  L.polyline(c.p, { color: "#fff", weight: 11, opacity: .9 }).addTo(mapa);
+  L.polyline(c.p, { color, weight: 7 }).addTo(mapa);
+  const m = c.p[Math.floor(c.p.length / 2)];
+  L.marker(m, { interactive: false, icon: L.divIcon({ className: "", iconSize: [26, 26], iconAnchor: [13, 13],
+    html: `<div style="width:26px;height:26px;border-radius:50%;background:${color};border:2px solid #fff;color:#fff;font:800 11px/22px system-ui;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.4)">${c.v}</div>` }) }).addTo(mapa);
+}
+function iconoCamion(color) {
+  return L.divIcon({ className: "", iconSize: [72, 60], iconAnchor: [36, 20],
+    html: `<div style="position:relative;width:72px;height:60px;filter:drop-shadow(0 1px 2px rgba(15,23,42,.45))">
+      <span class="rumbo" style="position:absolute;left:12px;top:-4px;width:48px;height:48px"><svg viewBox="0 0 48 48" width="48" height="48"><path d="M24 0.8 L31 8.6 H17 Z" fill="${color}" stroke="#f8fafc" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span style="position:absolute;left:20px;top:4px;width:32px;height:32px;border-radius:50%;background:${color};border:2.5px solid #f8fafc;box-sizing:border-box;display:flex;align-items:center;justify-content:center">
+        <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><rect x="1" y="5" width="11" height="8" rx="1.2" fill="#f8fafc"/><path d="M12.6 7.2h3.3l2.6 3.1v2.7h-5.9z" fill="#f8fafc"/><path d="M13.6 8.2h2l1.5 1.9h-3.5z" fill="${color}"/><circle cx="4.6" cy="14.6" r="1.9" fill="#f8fafc" stroke="${color}" stroke-width="1.2"/><circle cx="15.2" cy="14.6" r="1.9" fill="#f8fafc" stroke="${color}" stroke-width="1.2"/></svg>
+      </span>
+      <span style="position:absolute;left:50%;top:41px;transform:translateX(-50%);background:#facc15;color:#0f172a;border:1.5px solid #0f172a;border-radius:3px;padding:0 4px;font:700 10px/14px ui-monospace,monospace;letter-spacing:.04em;white-space:nowrap">${PLACA}</span>
+    </div>` });
+}
+const camion = L.marker(R[0], { icon: iconoCamion("#2563eb"), interactive: false, zIndexOffset: 1000 }).addTo(mapa);
+let colorCamion = "#2563eb";
+const capaExcesos = L.layerGroup().addTo(mapa);
+function centrar(p) {
+  const zoom = 16;
+  const adelante = 90, r = p.rumbo * Math.PI / 180;
+  const centro = mapa.unproject(mapa.project([p.lat, p.lon], zoom).add([Math.sin(r) * adelante, -Math.cos(r) * adelante]), zoom);
+  mapa.setView(centro, zoom, { animate: false });
+}
+
+/* ── Audio ── */
+let ctx = null, vozOn = true;
+function pitidos(n, hz) {
+  if (!vozOn) return;
+  try {
+    ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+    for (let i = 0; i < n; i++) {
+      const o = ctx.createOscillator(), g = ctx.createGain(), t = ctx.currentTime + i * 0.2;
+      o.frequency.value = hz; o.connect(g); g.connect(ctx.destination);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.25, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.15);
+      o.start(t); o.stop(t + 0.16);
+    }
+  } catch (e) {}
+}
+let vozEs = null;
+function elegirVoz() {
+  if (!("speechSynthesis" in window)) return;
+  const vs = speechSynthesis.getVoices();
+  vozEs = vs.find(v => /es[-_]CO/i.test(v.lang)) || vs.find(v => /^es/i.test(v.lang)) || null;
+}
+if ("speechSynthesis" in window) { elegirVoz(); speechSynthesis.onvoiceschanged = elegirVoz; }
+function decir(texto, tipo) {
+  if (tipo === "anuncio") { pitidos(2, 880); navigator.vibrate && navigator.vibrate(250); }
+  if (tipo === "exceso") { pitidos(3, 1320); navigator.vibrate && navigator.vibrate([300, 120, 300]); }
+  if (!vozOn || !("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(texto);
+  u.lang = "es-CO"; u.rate = 1.05; if (vozEs) u.voice = vozEs;
+  setTimeout(() => speechSynthesis.speak(u), tipo ? 450 : 0);
+}
+
+/* ── Simulación ── */
+const el = id => document.getElementById(id);
+let modo = "prudente", mult = 3, corriendo = false, terminado = false;
+let s, v, tGps, ultimaVoz, activa, excesos, ultimoCuadro, avisoMostrado;
+
+function reiniciar() {
+  s = 0; v = 55 / 3.6; tGps = 0; ultimaVoz = 0; activa = null; excesos = []; avisoMostrado = null; terminado = false;
+  capaExcesos.clearLayers();
+  el("pushes").innerHTML = ""; el("listaEx").innerHTML = ""; el("vacio").classList.remove("oculto"); el("resumen").classList.add("oculto");
+  pintar({ alerta: null, mensaje: null }, puntoEn(0));
+  centrar(puntoEn(0));
+  el("estadoLider").textContent = "Esperando inicio de ruta";
+  el("ptoLider").className = "punto det";
+}
+
+function anticipo(vms, vc) {
+  const vcm = vc / 3.6;
+  return Math.min(ANTICIPO_MAX, vms * REACCION + Math.max(0, (vms * vms - vcm * vcm) / (2 * DESAC)));
+}
+function curvaSiguiente() { return CURVAS.find(c => s <= c.s1 + SALIDA_MARGEN); }
+
+function objetivo() {
+  const c = curvaSiguiente();
+  if (!c) return CRUCERO;
+  const d = c.s0 - s;
+  if (modo === "prudente") {
+    const meta = c.v - 2, vm = v, mm = meta / 3.6;
+    const frenado = Math.max(0, (vm * vm - mm * mm) / (2 * 1.1));
+    if (d <= 0 || d <= Math.min(AVISO_M, frenado + 35)) return meta;
+    return CRUCERO;
+  }
+  if (d <= 120) return c.v + 16;
+  return CRUCERO;
+}
+
+/* Un paso de la lógica de alertas, como en alerta-curva.ts: una lectura de GPS por segundo. */
+function lectura() {
+  const kmh = Math.round(v * 3.6);
+  const ahora = performance.now();
+  const c = curvaSiguiente();
+  let alerta = null, mensaje = null;
+  if (c) {
+    const d = Math.round(c.s0 - s);
+    const dentro = s >= c.s0 && s <= c.s1;
+    const saliendo = s > c.s1 && s <= c.s1 + SALIDA_MARGEN;
+    const avisa = c.s0 - s > 0 && d <= Math.max(AVISO_M, anticipo(v, c.v));
+    if (avisa || dentro || (saliendo && activa && activa.id === c.id && activa.entro)) {
+      if (activa && activa.id !== c.id) {
+        if (activa.entro) { decir("Fin de la curva", null); if (activa.excedio) registrarExceso(activa); }
+        activa = null;
+      }
+      if (!activa) {
+        activa = { id: c.id, curva: c, entro: false, lecturas: 0, excedio: false, maxKmh: 0, punto: null };
+        decir(`${c.cerrada ? "Curva cerrada" : "Curva"} adelante. Máximo ${c.v}`, "anuncio");
+        ultimaVoz = ahora;
+      }
+      let exceso;
+      if (dentro) {
+        const pasado = kmh > c.v + TOL;
+        activa.entro = true;
+        activa.maxKmh = Math.max(activa.maxKmh, kmh);
+        if (pasado) { activa.lecturas++; activa.punto = puntoEn(s); }
+        if (activa.lecturas >= LECTURAS_EXCESO) activa.excedio = true;
+        exceso = pasado;
+      } else if (saliendo) {
+        exceso = false;
+      } else {
+        exceso = kmh > c.v + TOL && d <= anticipo(v, c.v);
+      }
+      if (exceso && ahora - ultimaVoz >= REPETIR_MS) { decir(`Reduzca a ${c.v}`, "exceso"); ultimaVoz = ahora; }
+      alerta = exceso ? "peligro" : "aviso";
+      mensaje = {
+        titulo: exceso ? "¡Baje la velocidad!" : (dentro || saliendo) ? "En curva" : c.cerrada ? "Curva cerrada" : "Curva adelante",
+        detalle: (dentro || saliendo) ? "Hasta salir de la curva" : `En ${d} m`,
+        limite: c.v,
+      };
+    }
+  }
+  if (!mensaje && activa) {
+    if (activa.entro) {
+      decir("Fin de la curva", null);
+      if (activa.excedio) registrarExceso(activa);
+    }
+    activa = null;
+  }
+  // Líder: estado del camión
+  const enCurva = activa && activa.entro;
+  el("ptoLider").className = "punto" + (enCurva ? " curva" : "");
+  el("estadoLider").textContent = `${enCurva ? "En curva" : "En marcha"} · ${kmh} km/h · Vía al Mar · hace 0 s`;
+  return { alerta, mensaje, kmh };
+}
+
+function hora() { return new Date().toLocaleTimeString("es-CO", { hour: "2-digit", minute: "2-digit" }); }
+function registrarExceso(a) {
+  const n = excesos.length + 1;
+  excesos.push(a);
+  const c = a.curva;
+  const p = a.punto || puntoEn((c.s0 + c.s1) / 2);
+  L.marker([p.lat, p.lon], { interactive: false, icon: L.divIcon({ className: "", iconSize: [24, 24], iconAnchor: [12, 12],
+    html: `<div style="width:24px;height:24px;border-radius:50%;background:#7f1d1d;border:2px solid #fff;color:#fff;font:700 11px/20px monospace;text-align:center">${n}</div>` }) }).addTo(capaExcesos);
+  const tipo = c.cerrada ? "cerrada" : "abierta";
+  el("pushes").innerHTML = `<div class="push" role="status">
+      <svg class="ic" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#f59e0b"/><rect x="19" y="10" width="26" height="31" rx="5" fill="#0f172a"/><rect x="23" y="14" width="18" height="22" rx="2.5" fill="#fbbf24"/><path d="M26.5 25 L30.5 29.5 L38 19" fill="none" stroke="#0f172a" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 47 L47 47 A3.5 3.5 0 0 1 47 54 L24 54 A7 7 0 0 1 17 47 Z" fill="#0f172a"/></svg>
+      <div><b>Exceso en curva · ${PLACA}</b><p>${a.maxKmh} km/h en curva ${tipo} (máx. ${c.v}) · Conductor demo · Vía al Mar</p><small>Yo Reporto · ${hora()}</small></div>
+    </div>`;
+  el("vacio").classList.add("oculto");
+  const li = document.createElement("li");
+  li.innerHTML = `<i>${n}</i><span>Curva ${tipo} ${c.id} · máx. ${c.v}</span><b style="color:#fca5a5">${a.maxKmh} km/h</b>`;
+  el("listaEx").appendChild(li);
+}
+
+function pintar(paso, p) {
+  const kmh = Math.round(v * 3.6);
+  el("kmh").textContent = kmh;
+  const cab = el("cabecera");
+  cab.className = "cabecera" + (paso.alerta ? " " + paso.alerta : "");
+  el("borde").classList.toggle("on", paso.alerta === "peligro");
+  const lim = paso.mensaje ? paso.mensaje.limite : LIMITE_VIA;
+  el("senal").textContent = lim;
+  el("senal").setAttribute("aria-label", `Velocidad máxima ${lim}`);
+  el("msg").innerHTML = paso.mensaje
+    ? `<p class="t">${paso.mensaje.titulo}</p><p class="d">${paso.mensaje.detalle}</p>`
+    : terminado
+      ? `<p class="t">Fin del recorrido</p><p class="d">Tramo de demostración completo</p>`
+      : `<p class="info"><span class="placa">${PLACA}</span> Vía nacional · Rumbo a Santa Verónica</p>`;
+  const c = curvaSiguiente();
+  const prox = el("prox");
+  if (c && !paso.mensaje && c.s0 - s < 3000 && !terminado) {
+    const f = Math.round(c.s0 - s);
+    prox.innerHTML = `<i style="background:${c.cerrada ? "#dc2626" : "#f59e0b"}">${c.v}</i>Próxima curva en ${f >= 1000 ? (f / 1000).toFixed(1).replace(".", ",") + " km" : f + " m"}`;
+  } else prox.innerHTML = "";
+  el("terminar").textContent = kmh >= 5 ? "Detén el vehículo para terminar" : "Terminar ruta";
+  const nuevoColor = paso.alerta === "peligro" || (activa && activa.entro) ? "#dc2626" : "#2563eb";
+  if (nuevoColor !== colorCamion) { colorCamion = nuevoColor; camion.setIcon(iconoCamion(colorCamion)); }
+  camion.setLatLng([p.lat, p.lon]);
+  const r = camion.getElement() && camion.getElement().querySelector(".rumbo");
+  if (r) r.style.transform = `rotate(${p.rumbo}deg)`;
+}
+
+let ultimoPaso = { alerta: null, mensaje: null };
+function cuadro(t) {
+  if (!corriendo) return;
+  const dtReal = Math.min(0.1, (t - (ultimoCuadro || t)) / 1000);
+  ultimoCuadro = t;
+  let dt = dtReal * mult;
+  while (dt > 0) {
+    const h = Math.min(0.05, dt); dt -= h;
+    const meta = objetivo() / 3.6;
+    if (v < meta) v = Math.min(meta, v + 0.9 * h);
+    else v = Math.max(meta, v - (modo === "prudente" ? 1.4 : 1.6) * h);
+    s += v * h;
+    tGps += h;
+    if (tGps >= 1) { tGps -= 1; ultimoPaso = lectura(); }
+    if (s >= TOTAL) { s = TOTAL; terminar(); break; }
+  }
+  const p = puntoEn(s);
+  pintar(ultimoPaso, p);
+  centrar(p);
+  if (corriendo) requestAnimationFrame(cuadro);
+}
+
+function terminar() {
+  corriendo = false; terminado = true; v = 0; activa = null;
+  ultimoPaso = { alerta: null, mensaje: null };
+  pintar(ultimoPaso, puntoEn(TOTAL));
+  el("btnPausa").textContent = "Repetir";
+  el("estadoLider").textContent = "Estacionado · fin del recorrido";
+  el("ptoLider").className = "punto det";
+  const n = excesos.length;
+  el("resumen").classList.remove("oculto");
+  el("resumen").innerHTML = `<b>Recorrido terminado:</b> 5,5 km · 4 curvas anunciadas · ${n === 0 ? "ningún exceso" : n === 1 ? "1 exceso" : n + " excesos"}. Queda en el historial con placa, conductor, hora y velocidad.`;
+  decir(n === 0 ? "Recorrido terminado sin excesos" : "Recorrido terminado", null);
+}
+
+function arrancar() {
+  if (terminado) reiniciar();
+  el("inicio").classList.add("oculto");
+  corriendo = true; ultimoCuadro = 0;
+  el("btnPausa").textContent = "Pausar";
+  try { ctx = ctx || new (window.AudioContext || window.webkitAudioContext)(); ctx.resume(); } catch (e) {}
+  if (s === 0) decir("Modo ruta activo. Rumbo a Santa Verónica.", null);
+  requestAnimationFrame(cuadro);
+}
+function pausar() {
+  corriendo = false;
+  el("btnPausa").textContent = "Continuar";
+  if ("speechSynthesis" in window) speechSynthesis.cancel();
+}
+
+el("btnInicio").addEventListener("click", arrancar);
+el("btnPausa").addEventListener("click", () => corriendo ? pausar() : arrancar());
+el("btnReiniciar").addEventListener("click", () => {
+  pausar(); reiniciar();
+  el("btnPausa").textContent = "Iniciar";
+  el("inicio").classList.remove("oculto");
+});
+el("btnVoz").addEventListener("click", e => {
+  vozOn = !vozOn;
+  e.currentTarget.setAttribute("aria-pressed", String(vozOn));
+  e.currentTarget.textContent = vozOn ? "Voz: activada" : "Voz: silenciada";
+  if (!vozOn && "speechSynthesis" in window) speechSynthesis.cancel();
+});
+document.querySelectorAll("[data-modo]").forEach(b => b.addEventListener("click", () => {
+  modo = b.dataset.modo;
+  document.querySelectorAll("[data-modo]").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+}));
+document.querySelectorAll("[data-x]").forEach(b => b.addEventListener("click", () => {
+  mult = Number(b.dataset.x);
+  document.querySelectorAll("[data-x]").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+}));
+document.addEventListener("visibilitychange", () => { if (document.hidden && corriendo) pausar(); });
+
+reiniciar();
+</script>
+</body>
+</html>

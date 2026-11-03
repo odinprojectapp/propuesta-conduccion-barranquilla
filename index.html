@@ -239,6 +239,12 @@ footer .marca{display:flex;align-items:center;gap:10px;color:#fff;font-weight:70
   .portada{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .caja.oscura,.cifra-grande,.contraste .con,footer{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
+.ver-demo{display:inline-flex;align-items:center;gap:10px;background:var(--ambar);color:var(--tinta);text-decoration:none;font-weight:800;font-size:16px;padding:14px 22px;border-radius:12px;min-height:48px}
+.ver-demo:hover{background:var(--ambar-claro)}
+.ver-demo:focus-visible{outline:3px solid var(--tinta);outline-offset:3px}
+.portada .ver-demo{margin-top:28px}
+.portada .ver-demo:focus-visible{outline-color:#fff}
+@media print{.ver-demo{display:none}}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 @media (prefers-reduced-motion:reduce){.wa-flota{transition:none}}
 /* WhatsApp */
@@ -289,6 +295,7 @@ footer .marca{display:flex;align-items:center;gap:10px;color:#fff;font-weight:70
     <nav aria-label="Secciones">
       <a href="#problema">Problema</a>
       <a href="#funciona">Cómo funciona</a>
+      <a href="demo.html">Demo</a>
       <a href="#entrega">Qué se entrega</a>
       <a href="#apk">App Android</a>
       <a href="#plan">Plan</a>
@@ -306,6 +313,7 @@ footer .marca{display:flex;align-items:center;gap:10px;color:#fff;font-weight:70
       <div class="sobre">Propuesta comercial · Licencia de uso</div>
       <h1>El conductor frena <em>antes</em> de la curva, no después del reporte.</h1>
       <p class="bajada">Módulo Conducción de Yo Reporto: protege la vida del conductor, de sus auxiliares y de quienes comparten la vía. Avisa por voz cada curva crítica antes de entrar, evita los eventos de exceso en la telemetría y deja que el líder vea la flota en vivo. En operación en Corozal y Magangué desde octubre de 2026. Esta propuesta lo lleva a la Gerencia Barranquilla con una app Android que sigue alertando con la pantalla bloqueada.</p>
+      <a class="ver-demo" href="demo.html"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="currentColor" opacity=".18"/><path d="M10 8l6 4-6 4z" fill="currentColor"/></svg>Ver el demo en la Vía al Mar</a>
     </div>
     <aside class="ficha" aria-label="Datos de la propuesta">
       <div class="logo-grande">
@@ -425,6 +433,10 @@ footer .marca{display:flex;align-items:center;gap:10px;color:#fff;font-weight:70
         <div><b class="num">30<small>km/h</small></b><span>Curva abierta (configurable por curva)</span></div>
         <div><b class="num">300<small>m</small></b><span>Anuncio por voz antes de la entrada, hasta 400 m</span></div>
         <div><b class="num">55 / 65</b><span>Política de la empresa en vía urbana / nacional, km/h. Editable; la norma urbana es 50</span></div>
+      </div>
+      <div class="aviso" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;justify-content:space-between">
+        <p><b>Véalo y escúchelo.</b> Demo interactivo de un camión por la Vía al Mar: la pantalla del conductor, las alertas por voz y lo que recibe el líder cuando hay un exceso.</p>
+        <a class="ver-demo" href="demo.html"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="currentColor" opacity=".18"/><path d="M10 8l6 4-6 4z" fill="currentColor"/></svg>Abrir el demo</a>
       </div>
     </div>
   </div>
