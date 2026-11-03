@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Conducción · Propuesta Barranquilla</title>
+<meta name="description" content="Propuesta comercial de licencia del módulo Conducción de Yo Reporto para la Gerencia Barranquilla.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f59e0b'/%3E%3Crect x='19' y='10' width='26' height='31' rx='5' fill='%230f172a'/%3E%3Crect x='23' y='14' width='18' height='22' rx='2.5' fill='%23fbbf24'/%3E%3Cpath d='M26.5 25 L30.5 29.5 L38 19' fill='none' stroke='%230f172a' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M17 47 L47 47 A3.5 3.5 0 0 1 47 54 L24 54 A7 7 0 0 1 17 47 Z' fill='%230f172a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --tinta:#0f172a; --tinta-2:#334155; --tinta-3:#64748b;
+  --papel:#fbfaf7; --hoja:#ffffff; --linea:#e7e2d8; --linea-2:#d6cfc2;
+  --ambar:#f59e0b; --ambar-claro:#fbbf24; --ambar-osc:#b45309; --ambar-fondo:#fff7e6;
+  --rojo:#b91c1c; --rojo-fondo:#fdecec; --verde:#15803d; --verde-fondo:#e8f5ec;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --sans:"Archivo",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--papel);color:var(--tinta);font:16px/1.6 var(--sans);font-feature-settings:"tnum" 1}
+a{color:var(--ambar-osc)}
+.envoltura{max-width:1080px;margin:0 auto;padding:0 24px}
+.num{font-family:var(--mono);font-feature-settings:"tnum" 1}
+
+/* Barra */
+.barra{position:sticky;top:0;z-index:10;background:rgba(15,23,42,.96);backdrop-filter:blur(6px);color:#e2e8f0}
+.barra .envoltura{display:flex;align-items:center;gap:20px;height:56px}
+.barra .marca{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;text-decoration:none;white-space:nowrap}
+.barra nav{display:flex;gap:18px;overflow-x:auto;scrollbar-width:none;margin-left:auto}
+.barra nav::-webkit-scrollbar{display:none}
+.barra nav a{color:#cbd5e1;text-decoration:none;font-size:14px;white-space:nowrap;padding:4px 0;border-bottom:2px solid transparent}
+.barra nav a:hover{color:#fff;border-color:var(--ambar)}
+
+/* Portada */
+.portada{background:var(--tinta);color:#f8fafc;position:relative;overflow:hidden}
+.portada::after{content:"";position:absolute;inset:auto 0 0 0;height:6px;background:repeating-linear-gradient(90deg,var(--ambar) 0 48px,transparent 48px 72px)}
+.portada .envoltura{padding-top:72px;padding-bottom:88px;display:grid;grid-template-columns:1.25fr .75fr;gap:48px;align-items:center}
+.sobre{font:600 13px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ambar-claro)}
+.portada h1{font-size:clamp(36px,6vw,64px);line-height:1.02;letter-spacing:-.02em;margin:18px 0 20px;font-weight:800}
+.portada h1 em{font-style:normal;color:var(--ambar-claro)}
+.portada .bajada{font-size:19px;color:#cbd5e1;max-width:34em;margin:0}
+.ficha{border:1px solid #334155;border-radius:14px;padding:22px 24px;background:#111c33}
+.ficha dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:10px 18px;font-size:14px}
+.ficha dt{color:#94a3b8}
+.ficha dd{margin:0;color:#f1f5f9;font-weight:600}
+.ficha .logo-grande{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid #334155}
+.ficha .logo-grande b{font-size:20px;display:block}
+.ficha .logo-grande span{font-size:13px;color:#94a3b8}
+
+/* Secciones */
+section{padding:80px 0;border-bottom:1px solid var(--linea);scroll-margin-top:56px}
+section:nth-of-type(even){background:var(--hoja)}
+.cabeza{display:grid;grid-template-columns:200px 1fr;gap:32px;margin-bottom:36px}
+.cabeza .n{font:600 13px/1.4 var(--mono);color:var(--ambar-osc);letter-spacing:.08em;text-transform:uppercase;padding-top:10px;border-top:3px solid var(--ambar)}
+h2{font-size:clamp(28px,3.6vw,40px);line-height:1.1;letter-spacing:-.015em;margin:0 0 12px;font-weight:800}
+.cabeza p{margin:0;color:var(--tinta-2);font-size:18px;max-width:42em}
+h3{font-size:19px;margin:0 0 8px;font-weight:700}
+.cuerpo{margin-left:232px}
+p{max-width:44em}
+
+/* Problema: contraste antes/después */
+.contraste{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--linea-2);border-radius:14px;overflow:hidden}
+.contraste>div{padding:28px}
+.contraste .hoy{background:#f4f1ea}
+.contraste .con{background:var(--tinta);color:#e2e8f0}
+.contraste .con h3{color:var(--ambar-claro)}
+.contraste ol{margin:12px 0 0;padding-left:20px}
+.contraste li{margin:6px 0}
+.etq{display:inline-block;font:600 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:6px 8px;border-radius:4px;margin-bottom:12px}
+.etq.gris{background:#e2ddd2;color:var(--tinta-2)}
+.etq.amb{background:var(--ambar);color:var(--tinta)}
+
+/* Diagrama */
+.diagrama{background:var(--hoja);border:1px solid var(--linea-2);border-radius:14px;padding:20px;margin-top:28px}
+.diagrama svg{width:100%;height:auto;display:block}
+.diagrama figcaption{font-size:14px;color:var(--tinta-3);margin-top:10px}
+
+/* Cifras de regla */
+.reglas{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:2px solid var(--tinta);margin-top:32px}
+.reglas div{padding:18px 18px 18px 0;border-right:1px solid var(--linea)}
+.reglas div:last-child{border-right:0}
+.reglas div+div{padding-left:18px}
+.reglas b{display:block;font:600 34px/1 var(--mono);letter-spacing:-.02em}
+.reglas b small{font-size:15px;color:var(--tinta-3);margin-left:4px}
+.reglas span{display:block;font-size:14px;color:var(--tinta-2);margin-top:8px}
+
+/* Listas de funciones */
+.funciones{display:grid;grid-template-columns:1fr 1fr;gap:40px 48px}
+.funciones h3{display:flex;align-items:center;gap:10px;padding-bottom:10px;border-bottom:1px solid var(--linea-2);margin-bottom:6px}
+.funciones h3 .ico{width:28px;height:28px;border-radius:7px;background:var(--ambar);display:grid;place-items:center;flex:none}
+.lista{list-style:none;margin:0;padding:0}
+.lista li{padding:11px 0 11px 22px;border-bottom:1px dashed var(--linea);position:relative;font-size:15.5px}
+.lista li::before{content:"";position:absolute;left:2px;top:20px;width:8px;height:8px;background:var(--ambar);border-radius:2px;transform:rotate(45deg)}
+.lista li b{font-weight:700}
+
+/* APK */
+.apk{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.caja{border:1px solid var(--linea-2);border-radius:14px;padding:24px;background:var(--hoja)}
+.caja.oscura{background:var(--tinta);color:#e2e8f0;border-color:var(--tinta)}
+.caja.oscura h3{color:#fff}
+.tabla-sit{width:100%;border-collapse:collapse;font-size:15px;margin-top:8px}
+.tabla-sit th,.tabla-sit td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--linea);vertical-align:top}
+.tabla-sit th{font:600 12px/1.3 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--tinta-3)}
+.est{display:inline-flex;align-items:flex-start;gap:6px;font-weight:600;font-size:14px}
+.est svg{margin-top:4px}
+.est.no{color:var(--rojo)} .est.si{color:var(--verde)} .est.par{color:var(--ambar-osc)}
+.est svg{flex:none}
+.aviso{border-left:4px solid var(--ambar);background:var(--ambar-fondo);padding:16px 20px;border-radius:0 10px 10px 0;margin-top:24px;font-size:15px}
+.aviso p{margin:0}
+.aviso p+p{margin-top:8px}
+.criterios{counter-reset:c;list-style:none;padding:0;margin:0}
+.criterios li{counter-increment:c;display:grid;grid-template-columns:36px 1fr;gap:8px;padding:10px 0;border-bottom:1px solid #26324a;font-size:15px}
+.criterios li::before{content:counter(c,decimal-leading-zero);font:600 13px/1.9 var(--mono);color:var(--ambar-claro)}
+
+/* Cronograma */
+.crono{border:1px solid var(--linea-2);border-radius:14px;background:var(--hoja);overflow:hidden}
+.crono-fila{display:grid;grid-template-columns:260px 1fr;border-bottom:1px solid var(--linea)}
+.crono-fila:last-child{border-bottom:0}
+.crono-fila .q{padding:14px 18px;font-size:14.5px}
+.crono-fila .q b{display:block;font-size:15px}
+.crono-fila .q span{color:var(--tinta-3);font-size:13px}
+.pista{position:relative;background:repeating-linear-gradient(90deg,transparent 0 calc(100%/16 - 1px),var(--linea) calc(100%/16 - 1px) calc(100%/16))}
+.pista i{position:absolute;top:50%;height:16px;transform:translateY(-50%);border-radius:4px;background:var(--tinta)}
+.pista i.amb{background:var(--ambar)}
+.pista i.hito{width:14px;height:14px;border-radius:2px;transform:translate(-50%,-50%) rotate(45deg);background:var(--rojo)}
+.crono-esc{display:grid;grid-template-columns:260px 1fr;background:#f4f1ea;border-bottom:1px solid var(--linea-2)}
+.crono-esc .sem{display:grid;grid-template-columns:repeat(16,1fr);font:600 11px/1 var(--mono);color:var(--tinta-2)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.crono-esc .sem span{padding:10px 0;text-align:center}
+.crono-esc .q{padding:10px 18px;font:600 11px/1 var(--mono);color:var(--tinta-3);text-transform:uppercase;letter-spacing:.08em}
+
+/* Requisitos */
+.req{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.req .caja h3{font-size:17px}
+.req .caja ul{margin:8px 0 0;padding-left:18px;font-size:15px}
+.req .caja li{margin:6px 0}
+.req .cuando{font:600 12px/1 var(--mono);color:var(--ambar-osc);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;display:block}
+
+/* Precios */
+.precio-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:start}
+.tabla{width:100%;border-collapse:collapse;font-size:15.5px}
+.tabla th,.tabla td{padding:13px 12px;border-bottom:1px solid var(--linea);text-align:left}
+.tabla th{font:600 12px/1.3 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--tinta-3);border-bottom:2px solid var(--tinta)}
+.tabla td.d,.tabla th.d{text-align:right;font-family:var(--mono);white-space:nowrap}
+.tabla tr.marcada td{background:var(--ambar-fondo);font-weight:700}
+.tabla tr.total td{border-top:2px solid var(--tinta);font-weight:800;font-size:16.5px}
+.tabla .sub{display:block;font-size:13px;color:var(--tinta-3);font-weight:400}
+.cifra-grande{background:var(--tinta);color:#fff;border-radius:14px;padding:28px}
+.cifra-grande .k{font:600 12px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#94a3b8}
+.cifra-grande .v{font:600 44px/1.05 var(--mono);letter-spacing:-.03em;margin:10px 0 4px;color:var(--ambar-claro)}
+.cifra-grande .v small{font-size:18px;color:#cbd5e1}
+.cifra-grande p{color:#cbd5e1;font-size:14.5px;margin:6px 0 0}
+.cifra-grande hr{border:0;border-top:1px solid #334155;margin:22px 0}
+.dos-col{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:36px}
+
+/* ROI */
+.roi{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--linea-2);border-radius:14px;overflow:hidden;margin-top:8px}
+.roi div{padding:22px;border-right:1px solid var(--linea-2);background:var(--hoja)}
+.roi div:last-child{border-right:0}
+.roi b{display:block;font:600 32px/1 var(--mono);color:var(--tinta)}
+.roi span{display:block;font-size:14px;color:var(--tinta-2);margin-top:10px}
+
+/* Condiciones */
+.cond{display:grid;grid-template-columns:220px 1fr;border-top:2px solid var(--tinta)}
+.cond dt,.cond dd{padding:14px 0;border-bottom:1px solid var(--linea);margin:0}
+.cond dt{font-weight:700;padding-right:20px}
+.cond dd{color:var(--tinta-2)}
+
+/* Firma */
+.firma{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:48px}
+.firma div{border-top:1.5px solid var(--tinta);padding-top:10px;font-size:14px;color:var(--tinta-2)}
+.firma b{color:var(--tinta);display:block;font-size:15px}
+
+footer{background:var(--tinta);color:#94a3b8;padding:36px 0;font-size:13.5px}
+footer .envoltura{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+footer .marca{display:flex;align-items:center;gap:10px;color:#fff;font-weight:700}
+
+/* Responsive */
+@media (max-width:900px){
+  .portada .envoltura{grid-template-columns:1fr;padding-top:48px;padding-bottom:64px}
+  .cabeza{grid-template-columns:1fr;gap:14px}
+  .cuerpo{margin-left:0}
+  .funciones,.apk,.precio-grid,.dos-col,.contraste{grid-template-columns:1fr}
+  .req{grid-template-columns:1fr}
+  .reglas{grid-template-columns:1fr 1fr}
+  .reglas div:nth-child(2){border-right:0}
+  .reglas div:nth-child(3){padding-left:0}
+  .reglas div:nth-child(n+3){border-top:1px solid var(--linea)}
+  .roi{grid-template-columns:1fr}
+  .roi div{border-right:0;border-bottom:1px solid var(--linea-2)}
+  .crono-fila,.crono-esc{grid-template-columns:1fr}
+  .crono-esc .q{display:none}
+  .crono-fila .pista{height:34px}
+  .cond{grid-template-columns:1fr}
+  .cond dt{border-bottom:0;padding-bottom:0}
+  .firma{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .envoltura{padding:0 16px}
+  section{padding:56px 0}
+  .barra .marca .txt{display:none}
+  .diagrama{overflow-x:auto}
+  .diagrama svg{min-width:640px}
+  .tabla-sit thead{display:none}
+  .tabla-sit tr{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--linea);padding:10px 0}
+  .tabla-sit td{border:0;padding:4px 6px}
+  .tabla-sit td:first-child{grid-column:1/-1;font-weight:700}
+  .tabla-sit td:nth-child(2)::before{content:"Web actual";display:block;font:600 11px/1.6 var(--mono);color:var(--tinta-3);text-transform:uppercase}
+  .tabla-sit td:nth-child(3)::before{content:"App Android";display:block;font:600 11px/1.6 var(--mono);color:var(--tinta-3);text-transform:uppercase}
+  .contraste>div,.caja,.cifra-grande{padding:20px}
+  .cifra-grande .v{font-size:34px}
+  .tabla{font-size:14px}
+  .tabla th,.tabla td{padding:10px 6px}
+  .tabla-sit{font-size:14px}
+  .crono-esc .sem span:nth-child(odd){visibility:hidden}
+}
+@media print{
+  .barra{display:none}
+  body{background:#fff;font-size:12.5px}
+  section{padding:28px 0}
+  .caja,.tabla,.roi,.firma,.crono,.contraste,.diagrama,.cifra-grande{break-inside:avoid}
+  .portada{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .caja.oscura,.cifra-grande,.contraste .con,footer{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+</head>
+<body>
+
+<!-- Logo de Yo Reporto (src/components/marca/Logo.tsx) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="yr-fondo" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#d97706"/></linearGradient>
+    <symbol id="logo" viewBox="0 0 64 64">
+      <rect width="64" height="64" rx="14" fill="url(#yr-fondo)"/>
+      <rect x="19" y="10" width="26" height="31" rx="5" fill="#0f172a"/>
+      <rect x="23" y="14" width="18" height="22" rx="2.5" fill="#fbbf24"/>
+      <path d="M26.5 25 L30.5 29.5 L38 19" fill="none" stroke="#0f172a" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M12.5 20 A10 10 0 0 1 12.5 9" fill="none" stroke="#0f172a" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M51.5 9 A10 10 0 0 1 51.5 20" fill="none" stroke="#0f172a" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M17 47 L47 47 A3.5 3.5 0 0 1 47 54 L24 54 A7 7 0 0 1 17 47 Z" fill="#0f172a"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="barra">
+  <div class="envoltura">
+    <a class="marca" href="#inicio"><svg width="28" height="28" aria-hidden="true"><use href="#logo"/></svg><span class="txt">Yo Reporto · Conducción</span></a>
+    <nav aria-label="Secciones">
+      <a href="#problema">Problema</a>
+      <a href="#funciona">Cómo funciona</a>
+      <a href="#entrega">Qué se entrega</a>
+      <a href="#apk">App Android</a>
+      <a href="#plan">Plan</a>
+      <a href="#cliente">Del cliente</a>
+      <a href="#inversion">Inversión</a>
+      <a href="#condiciones">Condiciones</a>
+    </nav>
+  </div>
+</header>
+
+<div class="portada" id="inicio">
+  <div class="envoltura">
+    <div>
+      <div class="sobre">Propuesta comercial · Licencia de uso</div>
+      <h1>El conductor frena <em>antes</em> de la curva, no después del reporte.</h1>
+      <p class="bajada">Módulo Conducción de Yo Reporto: alerta por voz de cada curva crítica de la ruta, monitoreo de la flota en vivo y registro de cada exceso. En operación en Corozal y Magangué desde octubre de 2026. Esta propuesta lo lleva a la Gerencia Barranquilla con una app Android que sigue alertando con la pantalla bloqueada.</p>
+    </div>
+    <aside class="ficha" aria-label="Datos de la propuesta">
+      <div class="logo-grande">
+        <svg width="52" height="52" aria-hidden="true"><use href="#logo"/></svg>
+        <div><b>Yo Reporto</b><span>Módulo Conducción</span></div>
+      </div>
+      <dl>
+        <dt>Para</dt><dd>Gerencia Barranquilla</dd>
+        <dt>De</dt><dd>Yo Reporto</dd>
+        <dt>Fecha</dt><dd>3 de noviembre de 2026</dd>
+        <dt>Referencia</dt><dd class="num">YR-COND-BAQ-01</dd>
+        <dt>Alcance</dt><dd>Solo el módulo Conducción</dd>
+        <dt>Flota</dt><dd>≈174 vehículos (promedio)</dd>
+        <dt>Vigencia</dt><dd>30 días calendario</dd>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<main>
+
+<!-- 1. Problema -->
+<section id="problema">
+  <div class="envoltura">
+    <div class="cabeza">
+      <div class="n">01 · El problema</div>
+      <div>
+        <h2>La telemetría registra el exceso. Nadie se lo avisa al conductor a tiempo.</h2>
+        <p>La plataforma GPS de la empresa tiene marcadas las curvas peligrosas como geocercas y genera un evento cuando un vehículo las toma por encima del límite. El evento llega cuando el riesgo ya se corrió y afecta el indicador, el bono de la tripulación y la seguridad de la carga.</p>
+      </div>
+    </div>
+    <div class="cuerpo">
+      <div class="contraste">
+        <div class="hoy">
+          <span class="etq gris">Hoy</span>
+          <h3>Se entera el líder, después</h3>
+          <ol>
+            <li>El camión entra a la curva a la velocidad que traía.</li>
+            <li>La plataforma GPS registra el evento.</li>
+            <li>El líder lo ve en un informe, horas o días después.</li>
+            <li>Se gestiona el incumplimiento cuando ya no se puede evitar.</li>
+          </ol>
+        </div>
+        <div class="con">
+          <span class="etq amb">Con Conducción</span>
+          <h3>Se entera el conductor, antes</h3>
+          <ol>
+            <li>A 300 m de la curva, el celular la anuncia por voz con su velocidad máxima.</li>
+            <li>Si viene rápido, la alerta se repite hasta que frene.</li>
+            <li>Si aun así la toma con exceso, el líder recibe una notificación al salir el camión de la curva, o al recuperar la señal si no la había.</li>
+            <li>Queda en el historial con placa, conductor, hora y velocidad.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. Cómo funciona -->
+<section id="funciona">
+  <div class="envoltura">
+    <div class="cabeza">
+      <div class="n">02 · Cómo funciona</div>
+      <div>
+        <h2>Una curva, de la entrada a la salida</h2>
+        <p>Cada curva crítica es un tramo de vía con su velocidad. El celular del conductor compara su posición y su velocidad con los tramos que tiene delante, en su sentido de marcha.</p>
+      </div>
+    </div>
+    <div class="cuerpo">
+      <figure class="diagrama" style="margin:0">
+        <svg viewBox="0 0 900 250" role="img" aria-label="Secuencia de alerta: anuncio a 300 metros, alerta repetida si hay exceso, velocidad controlada dentro del tramo y fin de curva a la salida">
+          <defs>
+            <pattern id="raya" width="28" height="4" patternUnits="userSpaceOnUse"><rect width="16" height="4" fill="#fbbf24"/></pattern>
+          </defs>
+          <!-- vía -->
+          <path d="M20 170 L520 170 C610 170 640 150 680 110 C720 70 760 60 880 60" fill="none" stroke="#cbd5e1" stroke-width="44" stroke-linecap="round"/>
+          <path d="M20 170 L520 170 C610 170 640 150 680 110 C720 70 760 60 880 60" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="14 12"/>
+          <!-- tramo de curva -->
+          <path d="M520 170 C610 170 640 150 680 110 C720 70 760 60 800 60" fill="none" stroke="#f59e0b" stroke-width="44" stroke-opacity=".35"/>
+          <!-- camión -->
+          <g transform="translate(70 170)">
+            <rect x="-22" y="-12" width="44" height="24" rx="5" fill="#0f172a"/>
+            <rect x="10" y="-8" width="9" height="16" rx="2" fill="#fbbf24"/>
+          </g>
+          <!-- marcas -->
+          <g font-family="JetBrains Mono, monospace" font-size="13" fill="#0f172a">
+            <line x1="220" y1="140" x2="220" y2="200" stroke="#0f172a" stroke-width="2"/>
+            <text x="220" y="222" text-anchor="middle" font-weight="600">−300 m</text>
+            <text x="220" y="111" text-anchor="middle" font-family="Archivo, sans-serif" font-size="14" font-weight="700">«Curva cerrada adelante.</text>
+            <text x="220" y="128" text-anchor="middle" font-family="Archivo, sans-serif" font-size="14" font-weight="700">Máximo 20»</text>
+            <line x1="520" y1="140" x2="520" y2="200" stroke="#b45309" stroke-width="2"/>
+            <text x="520" y="222" text-anchor="middle" font-weight="600" fill="#b45309">Entrada</text>
+            <line x1="800" y1="30" x2="800" y2="90" stroke="#b45309" stroke-width="2"/>
+            <text x="880" y="22" text-anchor="end" font-weight="600" fill="#b45309">Salida · «Fin de la curva»</text>
+            <text x="690" y="200" text-anchor="middle" font-family="Archivo, sans-serif" font-size="14" font-weight="700">Tramo controlado</text>
+            <text x="690" y="218" text-anchor="middle" font-size="12" fill="#334155">exceso = 2 lecturas sobre límite + 3 km/h</text>
+          </g>
+          <!-- señal -->
+          <g transform="translate(400 98)">
+            <circle r="26" fill="#fff" stroke="#b91c1c" stroke-width="6"/>
+            <text y="7" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="600" font-size="20" fill="#0f172a">20</text>
+          </g>
+          <text x="400" y="148" text-anchor="middle" font-family="Archivo, sans-serif" font-size="12.5" fill="#334155">si viene rápido: «Reduzca a 20» cada 5 s</text>
+        </svg>
+        <figcaption>Si el vehículo viene rápido, el anuncio se adelanta hasta 400 m según su velocidad, para que alcance a frenar con suavidad. La curva se descarta si va por una vía que la cruza o en sentido contrario.</figcaption>
+      </figure>
+
+      <div class="reglas">
+        <div><b class="num">20<small>km/h</small></b><span>Curva cerrada (configurable por curva)</span></div>
+        <div><b class="num">30<small>km/h</small></b><span>Curva abierta (configurable por curva)</span></div>
+        <div><b class="num">300<small>m</small></b><span>Anuncio por voz antes de la entrada, hasta 400 m</span></div>
+        <div><b class="num">55 / 65</b><span>Política de la empresa en vía urbana / nacional, km/h. Editable; la norma urbana es 50</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. Qué se entrega -->
+<section id="entrega">
+  <div class="envoltura">
+    <div class="cabeza">
+      <div class="n">03 · Qué se entrega</div>
+      <div>
+        <h2>Tres pantallas para tres personas</h2>
+        <p>El conductor maneja con alertas. El líder de agencia vigila la flota y recibe los excesos. El administrador configura las curvas y los límites. Está en producción en Corozal y Magangué. Para Barranquilla se adapta: agencia propia, zona urbana del área metropolitana y sus curvas.</p>
+      </div>
+    </div>
+    <div class="cuerpo funciones">
+      <div>
+        <h3><span class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.4" stroke-linecap="round"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="5"/></svg></span>Conductor: Modo ruta</h3>
+        <ul class="lista">
+          <li><b>Elige su camión</b> al iniciar. Se le sugiere la placa de su planeación del día. Una placa no puede tenerla otro conductor al mismo tiempo.</li>
+          <li><b>Marca el destino</b> por dirección, municipio, cliente o tocando el mapa. Recibe hasta 3 rutas y elige una.</li>
+          <li><b>Navega con el mapa</b> centrado hacia adelante, su velocidad grande y la señal del máximo de la vía en la cabecera.</li>
+          <li><b>Alertas por voz</b> antes de cada curva crítica, repetidas si no frena, y aviso de fin de curva al salir.</li>
+          <li><b>Velocidad de vía:</b> avisa por voz al superar el máximo urbano o nacional. Si el exceso dura 3 segundos o más, queda registrado.</li>
+          <li><b>Ruta habitual:</b> recuerda qué ruta usa cada camión para cada destino y la deja preseleccionada.</li>
+          <li><b>Desvío de ruta:</b> detecta que salió del recorrido, recalcula y le indica dónde retomarlo. Mientras tanto vigila todas las curvas que tenga cerca.</li>
+          <li><b>Nada se toca en marcha:</b> terminar la ruta o cambiar el destino solo se ofrece con el camión detenido.</li>
+          <li><b>Sin cobertura:</b> las curvas viajan en el celular. Excesos, recorrido y fin de ruta se guardan y se envían al volver la señal. Puede iniciar sin destino y sin internet.</li>
+          <li><b>Pantalla siempre encendida</b> y guía para preparar el celular (instalar la app, fijar la pantalla).</li>
+        </ul>
+      </div>
+      <div>
+        <h3><span class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.4" stroke-linecap="round"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z"/><path d="M9 3v15M15 6v15"/></svg></span>Líder: Flota en vivo</h3>
+        <ul class="lista">
+          <li><b>Mapa de la flota</b> con la placa de cada camión, en pantalla completa para la sala de control. Cada camión reporta cada 30 s y la pantalla se refresca cada 15 s.</li>
+          <li><b>Estado por camión:</b> en curva, en marcha, detenido, estacionado, en pausa o sin señal, ordenados por urgencia y con filtros. Toda posición dice de cuándo es.</li>
+          <li><b>Notificación inmediata</b> en el celular o el PC por cada exceso en curva, exceso de velocidad o salida de ruta, con placa, conductor y velocidad, y sonido en la pantalla de la flota.</li>
+          <li><b>Ficha del camión:</b> ruta elegida, lo recorrido y los tramos sin señal.</li>
+          <li><b>Historial</b> por día, placa y conductor: salida, llegada, recorrido y excesos numerados sobre el mapa.</li>
+          <li><b>Liberar una placa</b> cuando un conductor no cerró su ruta.</li>
+        </ul>
+      </div>
+      <div>
+        <h3><span class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></span>Administración: Curvas y límites</h3>
+        <ul class="lista">
+          <li><b>Carga inicial</b> del listado de curvas de la plataforma GPS, convertido a tramos de vía reales.</li>
+          <li><b>Marcar curvas nuevas</b> con dos toques en el mapa (entrada y salida). El sistema ajusta el trazo a la vía.</li>
+          <li><b>Editar o borrar</b> cualquier curva: tipo, velocidad y extremos arrastrables.</li>
+          <li><b>Límites editables:</b> curva cerrada y abierta (10-60 km/h) y vía urbana y nacional (30-80 km/h).</li>
+          <li><b>Placas:</b> se toman de la planeación y se corrigen a mano solo las excepciones.</li>
+          <li><b>Configuración propia de Barranquilla:</b> sus curvas, límites y flota quedan separados de los de Corozal y Magangué.</li>
+        </ul>
+      </div>
+      <div>
+        <h3><span class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.4" stroke-linecap="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>Seguridad y datos</h3>
+        <ul class="lista">
+          <li><b>Acceso por rol:</b> el conductor solo ve su Modo ruta. Cada líder ve la flota de su agencia y los administradores ven todas.</li>
+          <li><b>Los datos quedan en el Microsoft 365 de la empresa</b> (SharePoint): posiciones, rutas, recorridos y excesos. El acceso se limita al sitio del módulo.</li>
+          <li><b>Protección contra envíos falsos o masivos:</b> validación de coordenadas y fechas, límites de envío por conductor y una notificación por minuto como máximo.</li>
+          <li><b>Conexión cifrada</b> (HTTPS) y sesión con caducidad.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. APK -->
+<section id="apk">
+  <div class="envoltura">
+    <div class="cabeza">
+      <div class="n">04 · App Android</div>
+      <div>
+        <h2>Una app que no se duerme cuando se bloquea la pantalla</h2>
+        <p>En las pruebas de campo de Corozal, 2 de 3 celulares dejaron de alertar al bloquear la pantalla o al abrir otra app. Un navegador no puede impedirlo: Android congela la página para ahorrar batería. En una flota de 174 vehículos, una alerta que se pausa no sirve en ruta.</p>
+      </div>
+    </div>
+    <div class="cuerpo">
+      <table class="tabla-sit">
+        <thead><tr><th>Situación en ruta</th><th>Versión web actual</th><th>App Android (esta propuesta)</th></tr></thead>
+        <tbody>
+          <tr><td>Pantalla bloqueada</td><td><span class="est no"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Se pausa</span></td><td><span class="est si"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2.5 7.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Sigue alertando</span></td></tr>
+          <tr><td>El conductor abre otra app (WhatsApp, música)</td><td><span class="est no"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Se pausa</span></td><td><span class="est si"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2.5 7.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Sigue alertando y baja la música para hablar</span></td></tr>
+          <tr><td>Entra una llamada</td><td><span class="est no"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Se pausa</span></td><td><span class="est si"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2.5 7.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>GPS y control siguen; el aviso sale como tono y vibración, o por voz si se decide</span></td></tr>
+          <tr><td>Ahorro de batería del fabricante</td><td><span class="est no"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Puede cerrarla</span></td><td><span class="est par"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 2.5v5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="7" cy="11" r="1.4" fill="currentColor"/></svg>Protegido en los modelos certificados; la app verifica el ajuste al iniciar</span></td></tr>
+          <tr><td>El celular se reinicia en ruta</td><td><span class="est no"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Ruta perdida</span></td><td><span class="est si"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2.5 7.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Ofrece reanudar la misma ruta con un toque</span></td></tr>
+          <tr><td>Sin cobertura</td><td><span class="est si"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2.5 7.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Alerta y guarda</span></td><td><span class="est si"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2.5 7.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Alerta y guarda, también en segundo plano</span></td></tr>
+          <tr><td>El líder sabe si un celular dejó de reportar</td><td><span class="est par"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 2.5v5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="7" cy="11" r="1.4" fill="currentColor"/></svg>Lo ve como «en pausa»</span></td><td><span class="est si"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2.5 7.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Señal de vida cada 30 s y alerta de «sin reportar»</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="apk" style="margin-top:32px">
+        <div class="caja">
+          <h3>Cómo está construida</h3>
+          <p style="font-size:15px;margin:0 0 10px">Lo que alerta no depende de la pantalla. Corre en un servicio nativo de Android que el sistema no congela.</p>
+          <ul class="lista">
+            <li><b>Servicio de ubicación en primer plano</b> con notificación fija «Modo ruta activo». Es el mecanismo que usan las apps de navegación.</li>
+            <li><b>Motor de alertas nativo</b> con las mismas reglas que hoy funcionan en Corozal, verificado contra los mismos escenarios de prueba antes del piloto.</li>
+            <li><b>Voz nativa de Android</b> por el canal de navegación: baja la música para hablar.</li>
+            <li><b>Cola de envío nativa:</b> lo que no sale por falta de señal se reintenta solo.</li>
+            <li><b>La pantalla del conductor es la misma de hoy.</b> La capacitación se limita a instalar la app y conceder los permisos. El líder sigue usando la flota desde el navegador.</li>
+            <li><b>Instalación y actualización privadas:</b> por Google Play administrado, MDM o enlace firmado, sin depender de la tienda pública. Las actualizaciones llegan solas.</li>
+            <li><b>Solo Android.</b> En iPhone queda la versión web, con su limitación de pantalla bloqueada.</li>
+          </ul>
+        </div>
+        <div class="caja oscura">
+          <h3>Criterios de aceptación en el piloto</h3>
+          <p style="font-size:14.5px;color:#94a3b8;margin:0 0 6px">Se miden en campo, en los modelos de celular de la flota, antes de cobrar la licencia.</p>
+          <ol class="criterios">
+            <li>Alerta antes de la entrada, con la pantalla bloqueada, en al menos el 99% de los pasos por curva, sobre 300 pasos o más contrastados con la plataforma GPS.</li>
+            <li>Servicio activo durante al menos el 98% del tiempo de ruta. Cualquier hueco de más de 60 s queda explicado.</li>
+            <li>Durante una llamada, el GPS y el control siguen activos y el aviso sale. Se verifica en al menos 20 llamadas de prueba por modelo.</li>
+            <li>Lo guardado sin señal llega completo en menos de 10 minutos al recuperar cobertura.</li>
+            <li>Con el cargador de cabina, la batería no baja del 50% en una jornada de 10 horas y el celular no se sobrecalienta. El consumo de datos móviles se mide y se informa.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="aviso">
+        <p><b>Qué no se puede prometer, y cómo se cubre.</b> Ningún software puede garantizar la alerta si el conductor apaga el celular, si se agota la batería o si niega los permisos. La app no deja iniciar la ruta mientras falte un permiso y dice cuál falta. El líder ve en la flota cada celular que dejó de reportar. La garantía aplica a los modelos de celular certificados en el piloto. Algunos fabricantes, como Xiaomi y HONOR, exigen un ajuste adicional que la app guía paso a paso.</p>
+        <p><b>Durante una llamada</b>, por defecto el aviso sale como tono y vibración para no tapar la conversación. Se puede activar la voz, como en las apps de navegación. Se decide con la Gerencia en el arranque.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. Plan -->
+<section id="plan">
+  <div class="envoltura">
+    <div class="cabeza">
+      <div class="n">05 · Cómo se entrega</div>
+      <div>
+        <h2>Barranquilla alerta desde la semana 3; la app llega a toda la flota en la 16</h2>
+        <p>No hay que esperar a la app para empezar. La versión web, ya en producción, se activa para Barranquilla apenas estén cargadas sus curvas y montados los servidores propios. Funciona con la pantalla encendida y la app fija. Mientras tanto se construye la app Android, que luego reemplaza a la web en los celulares.</p>
+      </div>
+    </div>
+    <div class="cuerpo">
+      <div class="crono">
+        <div class="crono-esc" aria-hidden="true"><div class="q">Fase</div><div class="sem"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span></div></div>
+        <div class="crono-fila"><div class="q"><b>1. Arranque y montaje</b><span>Datos y curvas de Barranquilla, servidor de rutas y mapas propios, prueba de carga con 174 vehículos simulados</span></div><div class="pista"><span class="sr">Semanas 1 y 2</span><i style="left:0;width:12.5%"></i></div></div>
+        <div class="crono-fila"><div class="q"><b>2. Web activa en Barranquilla</b><span>Usuarios, placas, capacitación de líderes</span></div><div class="pista"><span class="sr">Semanas 3 a 16</span><i class="amb" style="left:12.5%;width:87.5%"></i></div></div>
+        <div class="crono-fila"><div class="q"><b>3. Construcción de la app</b><span>Servicio nativo, motor de alertas, modo sin señal</span></div><div class="pista"><span class="sr">Semanas 3 a 11</span><i style="left:12.5%;width:56.25%"></i></div></div>
+        <div class="crono-fila"><div class="q"><b>4. Ajuste por fabricante</b><span>Permisos, batería, guía por marca</span></div><div class="pista"><span class="sr">Semanas 10 a 12</span><i style="left:56.25%;width:18.75%"></i></div></div>
+        <div class="crono-fila"><div class="q"><b>5. Piloto de campo</b><span>10 a 15 conductores, rutas reales, medición</span></div><div class="pista"><span class="sr">Semanas 13 y 14, aceptación al cierre de la 14</span><i style="left:75%;width:12.5%"></i><i class="hito" style="left:87.5%"></i></div></div>
+        <div class="crono-fila"><div class="q"><b>6. Despliegue a toda la flota</b><span>Instalación y permisos en cada celular</span></div><div class="pista"><span class="sr">Semanas 15 y 16</span><i style="left:87.5%;width:12.5%"></i></div></div>
+      </div>
+      <p style="font-size:14px;color:var(--tinta-3);margin-top:12px">Barra ámbar: la versión web queda en servicio mientras llega la app. Rombo rojo: aceptación del piloto con los criterios de la sección 04, a partir de la cual se factura la licencia. El plazo corre desde que la Gerencia entrega los datos de la sección 06. Si el piloto requiere corrección, se suman hasta 3 semanas.</p>
+
+      <div class="dos-col">
+        <div>
+          <h3>Entregables</h3>
+          <ul class="lista">
+            <li>App Android firmada, instalada en los celulares de la flota.</li>
+            <li>Curvas críticas de Barranquilla cargadas como tramos de vía y verificadas.</li>
+            <li>Usuarios de conductores, líderes y administradores creados con su rol.</li>
+            <li>Manual del conductor de una página y manual del líder.</li>
+            <li>Capacitación en sitio a líderes y en grupos a conductores.</li>
+            <li>Informe del piloto con las mediciones de cada criterio.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Infraestructura incluida</h3>
+          <ul class="lista">
+            <li>Servidor de la aplicación y actualizaciones.</li>
+            <li>Servidor de rutas propio, con licencia para uso comercial.</li>
+            <li>Mapas y búsqueda de direcciones con proveedor comercial.</li>
+            <li>Notificaciones a líderes.</li>
+            <li>Monitoreo del servicio y copias de seguridad.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. Lo que se le pide al cliente -->
+<section id="cliente">
+  <div class="envoltura">
+    <div class="cabeza">
+      <div class="n">06 · Lo que aporta la Gerencia</div>
+      <div>
+        <h2>Lo que se necesita de Barranquilla</h2>
+        <p>El cronograma empieza a correr con estos insumos. La mayoría ya existen en la empresa: son los mismos que se usaron en Corozal.</p>
+      </div>
+    </div>
+    <div class="cuerpo req">
+      <div class="caja">
+        <span class="cuando">Semana 1 · Datos</span>
+        <h3>Información de la operación</h3>
+        <ul>
+          <li><b>Listado de curvas críticas</b> de la plataforma GPS para Barranquilla, en Excel: nombre, coordenada, tipo (cerrada o abierta) y límite.</li>
+          <li><b>Regla de la plataforma GPS</b> para el evento de exceso: umbral y duración, para alinear la alerta con lo que se mide.</li>
+          <li><b>Vehículos:</b> placas activas.</li>
+          <li><b>Planeación diaria</b> (conductor y placa por ruta), en el mismo formato de Corozal.</li>
+          <li><b>Personas:</b> conductores (cédula y nombre), líderes y administradores, con su centro de distribución.</li>
+        </ul>
+      </div>
+      <div class="caja">
+        <span class="cuando">Semana 2 · Equipos</span>
+        <h3>Celulares y vehículo</h3>
+        <ul>
+          <li><b>Un celular Android por vehículo:</b> Android 10 o superior (recomendado 11+), GPS, 3 GB de RAM como mínimo (recomendado 4 GB), batería de 4.000 mAh o más.</li>
+          <li><b>Plan de datos móviles</b> activo en cada celular.</li>
+          <li><b>Soporte fijo y cargador</b> en la cabina. El celular no se manipula con el vehículo en marcha.</li>
+          <li><b>Listado de modelos</b> de celular de la flota, para certificarlos en el piloto.</li>
+          <li><b>Opcional:</b> administración de dispositivos (MDM) si la empresa ya la tiene.</li>
+        </ul>
+      </div>
+      <div class="caja">
+        <span class="cuando">Semana 1 · Accesos y decisiones</span>
+        <h3>Personas, accesos y políticas</h3>
+        <ul>
+          <li><b>Responsable funcional</b> de la Gerencia y un líder por centro de distribución.</li>
+          <li><b>10 a 15 conductores</b> y sus rutas para el piloto.</li>
+          <li><b>Acceso al Microsoft 365</b> de la empresa: un sitio de SharePoint para el módulo y una aplicación registrada con permiso solo sobre ese sitio.</li>
+          <li><b>Autorización de tratamiento de datos</b> de ubicación de los conductores (Ley 1581 de 2012).</li>
+          <li><b>Decisiones:</b> aviso durante llamadas, tolerancia sobre el límite de vía, tiempo de conservación de recorridos y excesos.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. Inversión -->
+<section id="inversion">
+  <div class="envoltura">
+    <div class="cabeza">
+      <div class="n">07 · Inversión</div>
+      <div>
+        <h2>Licencia de uso por vehículo activo</h2>
+        <p>Un pago único de implementación y una mensualidad por cada vehículo que use el módulo. La mensualidad cubre la operación completa: servidores, mapas, rutas, soporte y la actualización permanente de la app frente a los cambios de Android. Valores en pesos colombianos, más IVA del 19%.</p>
+      </div>
+    </div>
+    <div class="cuerpo">
+      <div class="precio-grid">
+        <div>
+          <h3>Tarifa mensual por vehículo activo</h3>
+          <table class="tabla">
+            <thead><tr><th>Vehículos activos</th><th class="d">COP / vehículo / mes</th></tr></thead>
+            <tbody>
+              <tr><td>1 a 50</td><td class="d">39.000</td></tr>
+              <tr><td>51 a 120</td><td class="d">35.000</td></tr>
+              <tr class="marcada"><td>121 a 250 <span class="sub">Escala de Barranquilla</span></td><td class="d">32.000</td></tr>
+              <tr><td>251 o más</td><td class="d">29.000</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size:14px;color:var(--tinta-3)">La franja la fija la flota contratada. Para Barranquilla la tarifa es $32.000 con cualquier cantidad entre 121 y 250 vehículos activos. Vehículo activo es el que inició al menos una ruta en el mes. Las altas y bajas se facturan en el mes en que ocurren. El mínimo facturable es de 140 vehículos ($4.480.000 al mes).</p>
+        </div>
+        <div class="cifra-grande">
+          <div class="k">Implementación · pago único</div>
+          <div class="v">$55.000.000</div>
+          <p>App Android, adaptación a Barranquilla y sus curvas, montaje de servidores propios, capacitación y piloto de campo.</p>
+          <hr>
+          <div class="k">Licencia · 174 vehículos</div>
+          <div class="v">$5.568.000 <small>/ mes</small></div>
+          <p>174 × $32.000. Se factura desde la aceptación del piloto.</p>
+        </div>
+      </div>
+
+      <h3 style="margin-top:44px">Totales para 174 vehículos</h3>
+      <table class="tabla">
+        <thead><tr><th>Concepto</th><th class="d">Primer año <span class="sub">incluye implementación</span></th><th class="d">Segundo año</th></tr></thead>
+        <tbody>
+          <tr><td>Implementación</td><td class="d">55.000.000</td><td class="d">—</td></tr>
+          <tr><td>Licencia mensual · 12 meses <span class="sub">Año 2 con ajuste por IPC, estimado en 5%</span></td><td class="d">66.816.000</td><td class="d">70.156.800</td></tr>
+          <tr><td>Subtotal</td><td class="d">121.816.000</td><td class="d">70.156.800</td></tr>
+          <tr><td>IVA 19%</td><td class="d">23.145.040</td><td class="d">13.329.792</td></tr>
+          <tr class="total"><td>Total</td><td class="d">144.961.040</td><td class="d">83.486.592</td></tr>
+          <tr class="marcada"><td>Subtotal antes de IVA con pago anual anticipado <span class="sub">10% de descuento sobre la licencia</span></td><td class="d">115.134.400</td><td class="d">63.141.120</td></tr>
+        </tbody>
+      </table>
+
+      <div class="dos-col">
+        <div>
+          <h3>Incluido en la licencia</h3>
+          <ul class="lista">
+            <li>Servidores, rutas, mapas, direcciones y notificaciones.</li>
+            <li>Soporte de lunes a sábado, de 5:30 a 18:00, por WhatsApp y correo, para líderes y conductores. Respuesta en 2 horas si el servicio está caído, 8 horas si la falla es alta y 2 días hábiles para consultas.</li>
+            <li>Disponibilidad del 99% mensual en horario de operación. Si un mes queda por debajo, se descuenta el 10% de esa mensualidad.</li>
+            <li>Correcciones, compatibilidad con nuevas versiones de Android y mejoras menores.</li>
+            <li>Hasta 20 curvas nuevas al año cargadas por Yo Reporto. Los líderes pueden marcar las que quieran.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Adicional, si se requiere</h3>
+          <table class="tabla">
+            <tbody>
+              <tr><td>Desarrollos nuevos</td><td class="d">200.000 / hora</td></tr>
+              <tr><td>Bolsa de 40 horas</td><td class="d">7.200.000</td></tr>
+              <tr><td>Curvas de otras zonas <span class="sub">Mínimo 25</span></td><td class="d">120.000 / curva</td></tr>
+              <tr><td>Jornada adicional de capacitación</td><td class="d">1.200.000</td></tr>
+              <tr><td>Soporte 24/7 o en fines de semana</td><td class="d">A cotizar</td></tr>
+              <tr><td>Celulares, soportes, MDM</td><td class="d">A cotizar</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h3 style="margin-top:44px">Cuándo se paga sola</h3>
+      <p style="color:var(--tinta-2);margin-top:0">El primer año cuesta 121,8 millones antes de IVA, con la implementación incluida; desde el segundo, 70,2 millones. Los valores de siniestro son referencias del sector y se reemplazan por los reales de Barranquilla.</p>
+      <div class="roi">
+        <div><b class="num">2</b><span>siniestros graves evitados pagan el primer año completo; desde el segundo año basta uno más un leve. Un siniestro grave (lesionados, pérdida del vehículo o de la carga, deducible y alza de prima) cuesta desde $60 millones.</span></div>
+        <div><b class="num">≈7</b><span>siniestros leves evitados por año pagan la licencia desde el segundo año (unos 12 el primero). Cada uno, entre deducible, días de vehículo parado y carga dañada, cuesta alrededor de $10 millones.</span></div>
+        <div><b class="num">$1.067</b><span>de licencia por vehículo al día ($32.000 al mes entre 30 días).</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. Condiciones -->
+<section id="condiciones">
+  <div class="envoltura">
+    <div class="cabeza">
+      <div class="n">08 · Condiciones</div>
+      <div>
+        <h2>Condiciones comerciales</h2>
+      </div>
+    </div>
+    <div class="cuerpo">
+      <dl class="cond">
+        <dt>Vigencia de la oferta</dt><dd>30 días calendario desde el 3 de noviembre de 2026.</dd>
+        <dt>Forma de pago</dt><dd>Implementación: 40% a la firma, 20% con la web activa en Barranquilla y 40% a la aceptación del piloto. Licencia: mensual, a 30 días de la factura, o anual anticipada con 10% de descuento.</dd>
+        <dt>Inicio de la licencia</dt><dd>A partir de la aceptación del piloto. La versión web usada antes de esa fecha no se cobra.</dd>
+        <dt>Plazo</dt><dd>12 meses como mínimo, con renovación automática. Ajuste anual por IPC (DANE) en cada aniversario.</dd>
+        <dt>Garantía del piloto</dt><dd>Si el piloto no cumple los criterios de la sección 04 en los modelos certificados, Yo Reporto corrige sin costo. Si tras la corrección sigue sin cumplir, la Gerencia puede terminar sin pagar licencia ni el 40% final de la implementación.</dd>
+        <dt>Propiedad intelectual</dt><dd>El software, la app y la marca son de Yo Reporto. La Gerencia recibe una licencia de uso no exclusiva e intransferible mientras dure el contrato.</dd>
+        <dt>Datos</dt><dd>Los datos de ubicación, rutas, conductores y excesos son de la empresa y se guardan en su Microsoft 365. Se tratan conforme a la Ley 1581 de 2012. Al terminar, se entregan exportados y se retiran los accesos de Yo Reporto.</dd>
+        <dt>Terminación</dt><dd>Con aviso de 60 días, cumplido el plazo mínimo.</dd>
+        <dt>Continuidad</dt><dd>Si Yo Reporto deja de prestar el servicio, entrega el código fuente del módulo a la Gerencia para que pueda seguir operándolo.</dd>
+        <dt>No incluye</dt><dd>Celulares, planes de datos, soportes y cargadores, licencias de Microsoft 365 y la plataforma GPS de la empresa.</dd>
+      </dl>
+
+      <div class="firma">
+        <div><b>Yo Reporto</b>Firma y fecha</div>
+        <div><b>Gerencia Barranquilla</b>Aceptación: firma, nombre y fecha</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="envoltura">
+    <span class="marca"><svg width="26" height="26" aria-hidden="true"><use href="#logo"/></svg>Yo Reporto</span>
+    <span>Propuesta YR-COND-BAQ-01 · Documento para la Gerencia Barranquilla; no distribuir · 3 de noviembre de 2026</span>
+  </div>
+</footer>
+
+</body>
+</html>
